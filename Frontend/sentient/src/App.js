@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
 
-  useEffect(() => {
+  const getLikes = () => {
     fetch('/likes').then(res => res.json()).then(data => {
       setCurrentTime(data.likes);
     });
+  }
+
+  useEffect(() => {
+    getLikes();
   }, []);
 
   return (
