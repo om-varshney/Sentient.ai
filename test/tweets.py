@@ -1,4 +1,6 @@
 import snscrape.modules.twitter as sntwitter
+import text2emotion as te
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import pandas as pd
 import time
 
@@ -7,7 +9,7 @@ query = "(#CoupleGoals) filter:replies min_faves:10 lang:en"
 tweets = []
 count = 0
 limit = 200
-
+sid_obj = SentimentIntensityAnalyzer()
 start = time.time()
 for tweet in sntwitter.TwitterSearchScraper(query).get_items():
     if count == limit:
@@ -15,6 +17,8 @@ for tweet in sntwitter.TwitterSearchScraper(query).get_items():
     else:
         # print(vars(tweet))
         tweets.append([tweet.date, tweet.user, tweet.rawContent, tweet.likeCount, tweet.quoteCount, tweet.viewCount])
+        print(te.get_emotion(tweet.rawContent))
+        print(sid_obj.polarity_scores(tweet.rawContent))
         count += 1
 end = time.time()
 print(end - start)
