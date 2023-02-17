@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
   },
   backgroundEffect3: {
-    position: "fixed",
+    position: "absolute",
     top: 0,
     left: 0,
     height: "100%",

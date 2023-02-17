@@ -17,6 +17,10 @@ code {
     monospace;
 }
 
+.selectedSideNavButton {
+  color: #6A70FF !important;
+}
+
 .customNav::-webkit-scrollbar-thumb {
   background-color: #94D6FF;
 }

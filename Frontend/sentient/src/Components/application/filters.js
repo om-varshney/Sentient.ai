@@ -25,15 +25,15 @@ const useStyles = makeStyles((theme) => ({
   filterActions: {
     backgroundColor: "#6A70FF",
     color: "#fff",
+    padding: "15px !important",
   },
   primaryButton: {
     backgroundColor: "#F476EF !important",
     borderRadius: "500px !important",
-    margin: "5px !important",
   },
   secondaryButton: {
     color: "#fff !important",
-    backgroundColor: "#3F3D56 !important",
+    backgroundColor: "rgba(63,61,86,0.6) !important",
     borderRadius: "500px !important",
   },
   backgroundEffect1: {

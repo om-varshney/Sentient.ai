@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F476EF !important",
   },
   filtersButton: {
-    backgroundColor: "#3F3D56 !important",
+    backgroundColor: "rgba(63,61,86,0.6) !important",
   },
   searchIcon: {
     color: "white",
