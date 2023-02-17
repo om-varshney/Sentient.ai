@@ -30,3 +30,31 @@ code {
 .customNav::-webkit-scrollbar-track {
   color: #94D6FF;
 }
+
+.MuiCalendarPicker-root {
+  background-color: #94D6FF;
+}
+
+.MuiPickersCalendarHeader-root {
+  background-color: #94D6FF;
+}
+
+.MuiCalendarPicker-viewTransitionContainer {
+  background-color: #B5E3FF;
+}
+
+.MuiPickersDay-dayWithMargin {
+  background-color: #94D6FF !important;
+}
+
+.MuiPickersDay-dayWithMargin.Mui-selected {
+  background-color: #6A70FF !important;
+}
+
+.MuiPickersDay-today {
+  border: 2px solid #6A70FF !important;
+}
+
+.css-3eghsz-PrivatePickersYear-button.Mui-selected {
+  background-color: #6A70FF !important;
+}

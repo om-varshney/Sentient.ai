@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   searchButton: {
-    backgroundColor: "#FF8AFA !important",
+    backgroundColor: "#F476EF !important",
   },
   filtersButton: {
     backgroundColor: "#3F3D56 !important",
