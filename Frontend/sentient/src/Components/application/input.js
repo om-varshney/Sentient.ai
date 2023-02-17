@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainInput = ({ placeHolderText, width }) => {
+const MainInput = ({ placeHolderText, width, filterFunction }) => {
   const classes = useStyles();
 
   return (
@@ -69,7 +69,10 @@ const MainInput = ({ placeHolderText, width }) => {
         aria-label="close"
         className={classes.filtersButton}
       >
-        <TuneIcon className={classes.filtersIcon} />
+        <TuneIcon
+          className={classes.filtersIcon}
+          onClick={() => filterFunction(true)}
+        />
       </IconButton>
     </Paper>
   );

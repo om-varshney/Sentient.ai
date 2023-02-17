@@ -7,6 +7,8 @@ import backgroundHighlightImage from "../Assets/Background shade.png";
 import { NavBar } from "./navbar";
 import { Button, Typography } from "@mui/material";
 import MainInput from "./application/input";
+import Filters from "./application/filters";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   homePage: {
@@ -85,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const HomePage = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
   return (
     <Grid container xs={12} className={classes.homePage}>
@@ -95,6 +98,7 @@ export const HomePage = () => {
         alt=""
         className={classes.backgroundEffect3}
       />
+      <Filters open={open} />
       <NavBar />
       <Grid item container xs={9} className={classes.heroSection}>
         <Grid item container xs={6} className={classes.HSTextContainer}>
@@ -112,6 +116,7 @@ export const HomePage = () => {
             <MainInput
               placeHolderText="Enter @mention or #hashtag"
               width={90}
+              filterFunction={setOpen}
             />
           </Grid>
         </Grid>

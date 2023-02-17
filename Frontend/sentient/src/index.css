@@ -17,4 +17,16 @@ code {
     monospace;
 }
 
+.customNav::-webkit-scrollbar-thumb {
+  background-color: #94D6FF;
+}
 
+.customNav::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  cursor: pointer;
+}
+
+.customNav::-webkit-scrollbar-track {
+  color: #94D6FF;
+}
