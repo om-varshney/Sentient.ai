@@ -1,25 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import MuiAlert from "@mui/material/Alert";
+import { HomePage } from "./Components/home";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  const getLikes = () => {
-    fetch('/likes').then(res => res.json()).then(data => {
-      setCurrentTime(data.likes);
-    });
-  }
-
-  useEffect(() => {
-    getLikes();
-  }, []);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>Likes on latest tweet are {currentTime}.</p>
-      </header>
-    </div>
-  );
+  return <HomePage />;
 }
 
 export default App;
