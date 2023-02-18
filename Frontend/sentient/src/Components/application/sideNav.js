@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignContent: "space-evenly",
     justifyContent: "space-evenly",
-    position: "fixed",
+    position: "absolute",
     height: "50vh",
     left: "3vw",
     top: "25vh",
