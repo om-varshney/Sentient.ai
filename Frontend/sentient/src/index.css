@@ -67,3 +67,20 @@ img {
 .css-3eghsz-PrivatePickersYear-button.Mui-selected {
   background-color: #6A70FF !important;
 }
+
+.MuiAlert-filledWarning {
+  background-color: #896363 !important;
+}
+
+.MuiAlert-filledInfo {
+  background-color: #6A70FF !important;
+}
+
+.MuiAlert-filledError {
+  background-color: #ff6961 !important;
+}
+
+.MuiAlert-filledSuccess {
+  color: #3F3D56 !important;
+  background-color: #87BF10 !important;
+}

@@ -85,9 +85,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const HomePage = () => {
+export const HomePage = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
 
   return (
     <Grid container className={classes.homePage}>
@@ -98,7 +97,7 @@ export const HomePage = () => {
         alt=""
         className={classes.backgroundEffect3}
       />
-      <Filters open={open} />
+      <Filters open={props.filterOpen} />
       <NavBar />
       <Grid item container xs={9} className={classes.heroSection}>
         <Grid item container xs={6} className={classes.HSTextContainer}>
@@ -116,7 +115,6 @@ export const HomePage = () => {
             <MainInput
               placeHolderText="Enter @mention or #hashtag"
               width={90}
-              filterFunction={setOpen}
             />
           </Grid>
         </Grid>

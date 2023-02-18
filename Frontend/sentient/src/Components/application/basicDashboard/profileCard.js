@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ProfileCard() {
   const classes = useStyles();
   return (
-    <Card className={classes.profileCard} elevation={0}>
+    <Card className={classes.profileCard} elevation={1}>
       <CardContent>
         <img
           src={welcomeIllustration}

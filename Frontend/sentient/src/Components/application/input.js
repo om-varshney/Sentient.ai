@@ -5,6 +5,14 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
 import { makeStyles } from "@mui/styles";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import {
+  setNotificationContent,
+  setQuery,
+  setQueryFiltersView,
+  setView,
+} from "../../Redux/actions/sentientActions";
 
 const useStyles = makeStyles((theme) => ({
   searchButton: {
@@ -24,8 +32,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainInput = ({ placeHolderText, width, filterFunction }) => {
+const onSearch = (query, dispatch) => {
+  if (query) {
+    dispatch(setQuery(query));
+    dispatch(
+      setView({
+        homeState: false,
+        trendDashboard: true,
+        sentimentDashboard: false,
+      })
+    );
+  } else {
+    dispatch(
+      setNotificationContent({
+        type: "warning",
+        msg: "Please provide a Twitter handle or Hashtag",
+        id: Math.random(),
+      })
+    );
+  }
+};
+
+const openFilters = (query, dispatch) => {
+  if (query) {
+    dispatch(setQuery(query));
+    dispatch(setQueryFiltersView(true));
+  } else {
+    dispatch(
+      setNotificationContent({
+        type: "warning",
+        msg: "Please provide a Twitter handle or Hashtag",
+        id: Math.random(),
+      })
+    );
+  }
+};
+
+const MainInput = ({ placeHolderText, width }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [input, setInput] = useState("");
 
   return (
     <Paper
@@ -49,12 +95,25 @@ const MainInput = ({ placeHolderText, width, filterFunction }) => {
         }}
         placeholder={placeHolderText}
         required={true}
+        value={input}
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            onSearch(input, dispatch);
+          }
+        }}
       />
       <IconButton
         type="button"
         aria-label="search"
         size="large"
         className={classes.searchButton}
+        onClick={() => {
+          onSearch(input, dispatch);
+        }}
       >
         <SearchIcon className={classes.searchIcon} />
       </IconButton>
@@ -68,7 +127,7 @@ const MainInput = ({ placeHolderText, width, filterFunction }) => {
         size="large"
         aria-label="close"
         className={classes.filtersButton}
-        onClick={() => filterFunction(true)}
+        onClick={() => openFilters(input, dispatch)}
       >
         <TuneIcon className={classes.filtersIcon} />
       </IconButton>

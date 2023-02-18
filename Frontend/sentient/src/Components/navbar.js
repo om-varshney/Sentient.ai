@@ -1,6 +1,8 @@
 import { makeStyles } from "@mui/styles";
 import { Button, Grid } from "@mui/material";
 import logo from "../Assets/Logo.svg";
+import { useDispatch } from "react-redux";
+import { setView } from "../Redux/actions/sentientActions";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -23,13 +25,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const setHome = (dispatch) => {
+  dispatch(
+    setView({
+      homeState: true,
+      trendDashboard: false,
+      sentimentDashboard: false,
+    })
+  );
+};
+
 export const NavBar = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Grid item xs={9} className={classes.navBar}>
       <img src={logo} alt="Logo" className={classes.logo} />
-      <Button className={classes.navButton}>Home</Button>
+      <Button className={classes.navButton} onClick={() => setHome(dispatch)}>
+        Home
+      </Button>
       <Button className={classes.navButton}>About</Button>
     </Grid>
   );

@@ -51,7 +51,6 @@ export const BasicDashboard = () => {
       <img src={leaves_1} alt="" className={classes.backgroundEffect1} />
       <img src={leaves_2} alt="" className={classes.backgroundEffect2} />
       <NavBar />
-      <SideNav />
       <NewQueryButton />
       <Grid
         item

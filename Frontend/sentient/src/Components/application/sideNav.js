@@ -3,8 +3,8 @@ import { makeStyles } from "@mui/styles";
 import { IconButton } from "@mui/material";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
-import StackedBarChartRoundedIcon from "@mui/icons-material/StackedBarChartRounded";
-import PieChartRoundedIcon from "@mui/icons-material/PieChartRounded";
+import { useDispatch } from "react-redux";
+import { setView } from "../../Redux/actions/sentientActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,7 +30,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const selectStyle = (index) => {
+const selectStyle = (index, dispatch) => {
+  if (index === 1) {
+    dispatch(
+      setView({
+        homeState: false,
+        trendDashboard: true,
+        sentimentDashboard: false,
+      })
+    );
+  } else {
+    dispatch(
+      setView({
+        homeState: false,
+        trendDashboard: false,
+        sentimentDashboard: true,
+      })
+    );
+  }
   const elems = Array.from(document.querySelectorAll(".sideNavButton"));
   elems.forEach((elem) => elem.classList.remove("selectedSideNavButton"));
   const clicked = document.getElementById(`sideNavButton_${index}`);
@@ -39,15 +56,17 @@ const selectStyle = (index) => {
 
 export default function SideNav() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   return (
     <Stack className={classes.container}>
-      <IconButton onClick={() => selectStyle(1)}>
+      <IconButton onClick={() => selectStyle(1, dispatch)}>
         <HomeRoundedIcon
           id="sideNavButton_1"
           className={`${classes.homeIcon} selectedSideNavButton sideNavButton`}
         />
       </IconButton>
-      <IconButton onClick={() => selectStyle(2)}>
+      <IconButton onClick={() => selectStyle(2, dispatch)}>
         <BarChartRoundedIcon
           id="sideNavButton_2"
           className={`${classes.homeIcon} sideNavButton`}

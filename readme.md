@@ -10,3 +10,7 @@
 ## Application Design
 I would like to have a partially dynamic dashboard. For example, the information about current tweet should keep
 updating in real time. Further I would like to have interactive Charts for the user.
+
+
+## To-Do
+1. Ping Server to check if entered handle exists.
