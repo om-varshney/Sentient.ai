@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignContent: "flex-start",
     zIndex: 1,
+    paddingBottom: "8px",
   },
   backgroundEffect1: {
     position: "fixed",

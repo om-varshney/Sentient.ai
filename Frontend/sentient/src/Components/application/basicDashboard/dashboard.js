@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignContent: "flex-start",
     zIndex: 1,
+    paddingBottom: "8px",
   },
   backgroundEffect1: {
     position: "fixed",
@@ -65,28 +66,28 @@ export const BasicDashboard = () => {
           </Grid>
           <Grid item container xs={6} spacing={1}>
             <Grid item xs={6}>
-              <InfoCard />{" "}
+              <InfoCard title="Average Likes" content={"16.1k"} />
             </Grid>
             <Grid item xs={6}>
-              <InfoCard />
+              <InfoCard title="Average Views" content={"4.2m"} />
             </Grid>
             <Grid item xs={6}>
-              <InfoCard />
+              <InfoCard title="Average Retweets" content={"2.3k"} />
             </Grid>
             <Grid item xs={6}>
-              <InfoCard />
+              <InfoCard title="Average Quote Tweets" content={"1.8k"} />
             </Grid>
           </Grid>
         </Grid>
         <Grid item container xs={12} spacing={1}>
           <Grid item xs={12}>
-            <ChartCard />
+            <ChartCard title="Month wise Likes Trend" />
           </Grid>
           <Grid item xs={12}>
-            <ChartCard />
+            <ChartCard title="Month wise Views Trend" />
           </Grid>
           <Grid item xs={12}>
-            <ChartCard />
+            <ChartCard title="Month wise Retweets Trend" />
           </Grid>
         </Grid>
       </Grid>

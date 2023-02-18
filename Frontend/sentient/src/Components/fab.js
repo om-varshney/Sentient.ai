@@ -31,7 +31,7 @@ export default function NewQueryButton() {
   return (
     <SpeedDial
       ariaLabel="SpeedDial basic example"
-      sx={{ position: "absolute", bottom: "3vh", right: "3vw" }}
+      sx={{ position: "fixed", bottom: "3vh", right: "3vw" }}
       icon={<SpeedDialIcon />}
       className={classes.fab}
     >

@@ -6,10 +6,10 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   infoCard: {
-    backgroundColor: "#94D6FF !important",
+    backgroundColor: "#ceecfd !important",
   },
   infoTitle: {
-    backgroundColor: "#6A70FF",
+    backgroundColor: "rgba(106,112,255,0.9)",
     color: "#fff",
   },
 }));

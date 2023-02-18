@@ -6,21 +6,26 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   infoCard: {
-    backgroundColor: "#94D6FF !important",
+    backgroundColor: "#ceecfd !important",
+    "& .MuiCardHeader-title": {
+      fontSize: "1rem !important",
+    },
   },
   infoTitle: {
-    backgroundColor: "#6A70FF",
+    backgroundColor: "rgba(106,112,255,0.9)",
     color: "#fff",
   },
 }));
 
-export default function InfoCard() {
+export default function InfoCard(props) {
   const classes = useStyles();
   return (
     <Card className={classes.infoCard}>
-      <CardHeader title="Info" className={classes.infoTitle} />
+      <CardHeader title={props.title} className={classes.infoTitle} />
       <CardContent>
-        <Typography>Content</Typography>
+        <Typography variant="h3" style={{ color: "rgba(63,61,86,0.9)" }}>
+          {props.content}
+        </Typography>
       </CardContent>
     </Card>
   );
