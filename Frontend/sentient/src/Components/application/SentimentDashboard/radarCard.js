@@ -26,9 +26,12 @@ ChartJS.register(
 const useStyles = makeStyles((theme) => ({
   radarCard: {
     backgroundColor: "#ceecfd !important",
+    "& .MuiCardHeader-title": {
+      fontSize: "1rem !important",
+    },
   },
   radarTitle: {
-    backgroundColor: "rgba(106,112,255,0.9)",
+    backgroundColor: "rgba(106,112,255,0.8)",
     color: "#fff",
   },
 }));

@@ -68,11 +68,9 @@ const MainInput = ({ placeHolderText, width, filterFunction }) => {
         size="large"
         aria-label="close"
         className={classes.filtersButton}
+        onClick={() => filterFunction(true)}
       >
-        <TuneIcon
-          className={classes.filtersIcon}
-          onClick={() => filterFunction(true)}
-        />
+        <TuneIcon className={classes.filtersIcon} />
       </IconButton>
     </Paper>
   );

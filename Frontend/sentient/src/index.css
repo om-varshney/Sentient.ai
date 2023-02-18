@@ -23,7 +23,7 @@ img {
 }
 
 .selectedSideNavButton {
-  color: #6A70FF !important;
+  color: rgba(106, 112, 255, 0.9) !important;
 }
 
 .customNav::-webkit-scrollbar-thumb {

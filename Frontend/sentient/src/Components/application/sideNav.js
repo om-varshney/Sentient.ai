@@ -3,6 +3,8 @@ import { makeStyles } from "@mui/styles";
 import { IconButton } from "@mui/material";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import StackedBarChartRoundedIcon from "@mui/icons-material/StackedBarChartRounded";
+import PieChartRoundedIcon from "@mui/icons-material/PieChartRounded";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,27 +33,24 @@ const useStyles = makeStyles((theme) => ({
 const selectStyle = (index) => {
   const elems = Array.from(document.querySelectorAll(".sideNavButton"));
   elems.forEach((elem) => elem.classList.remove("selectedSideNavButton"));
-  document
-    .getElementById(`sideNavButton_${index}`)
-    .classList.add("selectedSideNavButton");
+  const clicked = document.getElementById(`sideNavButton_${index}`);
+  clicked.classList.add("selectedSideNavButton");
 };
 
 export default function SideNav() {
   const classes = useStyles();
   return (
     <Stack className={classes.container}>
-      <IconButton>
+      <IconButton onClick={() => selectStyle(1)}>
         <HomeRoundedIcon
           id="sideNavButton_1"
           className={`${classes.homeIcon} selectedSideNavButton sideNavButton`}
-          onClick={() => selectStyle(1)}
         />
       </IconButton>
-      <IconButton>
+      <IconButton onClick={() => selectStyle(2)}>
         <BarChartRoundedIcon
           id="sideNavButton_2"
           className={`${classes.homeIcon} sideNavButton`}
-          onClick={() => selectStyle(2)}
         />
       </IconButton>
     </Stack>

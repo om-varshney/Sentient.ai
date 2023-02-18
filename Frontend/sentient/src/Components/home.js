@@ -90,7 +90,7 @@ export const HomePage = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Grid container xs={12} className={classes.homePage}>
+    <Grid container className={classes.homePage}>
       <img src={leaves_1} alt="" className={classes.backgroundEffect1} />
       <img src={leaves_2} alt="" className={classes.backgroundEffect2} />
       <img

@@ -47,7 +47,7 @@ export const SentimentDashboard = () => {
   const classes = useStyles();
 
   return (
-    <Grid container xs={12} className={classes.dashboard}>
+    <Grid container className={classes.dashboard}>
       <img src={leaves_1} alt="" className={classes.backgroundEffect1} />
       <img src={leaves_2} alt="" className={classes.backgroundEffect2} />
       <NavBar />

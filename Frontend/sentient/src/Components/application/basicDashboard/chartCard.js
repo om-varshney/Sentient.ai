@@ -28,9 +28,12 @@ ChartJS.register(
 const useStyles = makeStyles((theme) => ({
   chartCard: {
     backgroundColor: "#ceecfd !important",
+    "& .MuiCardHeader-title": {
+      fontSize: "1rem !important",
+    },
   },
   chartTitle: {
-    backgroundColor: "rgba(106,112,255,0.9)",
+    backgroundColor: "rgba(106,112,255,0.8)",
     color: "#fff",
   },
   chartContent: {
