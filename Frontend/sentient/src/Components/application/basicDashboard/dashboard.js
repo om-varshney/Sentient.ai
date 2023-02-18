@@ -7,10 +7,14 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import SideNav from "../sideNav";
 import NewQueryButton from "../../fab";
+import ProfileCard from "./profileCard";
+import InfoCard from "./infoCard";
+import ChartCard from "./chartCard";
 
 const useStyles = makeStyles((theme) => ({
   dashboard: {
     display: "flex",
+    minHeight: "100vh",
     flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#B5E3FF",
@@ -18,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   dashboardContainer: {
     backgroundColor: "transparent",
     width: "100vw",
-    height: "90vh",
+    minHeight: "90vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -48,17 +52,43 @@ export const BasicDashboard = () => {
       <NavBar />
       <SideNav />
       <NewQueryButton />
-      <Grid item container xs={9} className={classes.dashboardContainer}>
-        <Grid item container xs={12}>
-          <Grid item xs={6}></Grid>
-          <Grid item container xs={6}>
-            <Grid item xs={6}></Grid>
-            <Grid item xs={6}></Grid>
-            <Grid item xs={6}></Grid>
-            <Grid item xs={6}></Grid>
+      <Grid
+        item
+        container
+        xs={9}
+        className={classes.dashboardContainer}
+        spacing={1}
+      >
+        <Grid item container xs={12} spacing={1}>
+          <Grid item xs={6}>
+            <ProfileCard />
+          </Grid>
+          <Grid item container xs={6} spacing={1}>
+            <Grid item xs={6}>
+              <InfoCard />{" "}
+            </Grid>
+            <Grid item xs={6}>
+              <InfoCard />
+            </Grid>
+            <Grid item xs={6}>
+              <InfoCard />
+            </Grid>
+            <Grid item xs={6}>
+              <InfoCard />
+            </Grid>
           </Grid>
         </Grid>
-        <Stack></Stack>
+        <Grid item container xs={12} spacing={1}>
+          <Grid item xs={12}>
+            <ChartCard />
+          </Grid>
+          <Grid item xs={12}>
+            <ChartCard />
+          </Grid>
+          <Grid item xs={12}>
+            <ChartCard />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

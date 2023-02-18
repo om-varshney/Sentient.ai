@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actions = [
-  { icon: <EditRoundedIcon />, name: "Edit Query" },
-  { icon: <AddIcon />, name: "New Query" },
+  { icon: <EditRoundedIcon />, name: "Edit Search Filters" },
+  { icon: <AddIcon />, name: "Start New Search" },
 ];
 
 export default function NewQueryButton() {

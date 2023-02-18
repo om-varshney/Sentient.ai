@@ -10,7 +10,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function App() {
   return (
     <React.Fragment>
-      <HomePage />
+      {/*<HomePage />*/}
       <BasicDashboard />
     </React.Fragment>
   );

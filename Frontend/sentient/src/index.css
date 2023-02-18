@@ -17,6 +17,11 @@ code {
     monospace;
 }
 
+img {
+  user-select: none;
+  pointer-events: none;
+}
+
 .selectedSideNavButton {
   color: #6A70FF !important;
 }
