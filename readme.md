@@ -14,3 +14,10 @@ updating in real time. Further I would like to have interactive Charts for the u
 
 ## To-Do
 1. Ping Server to check if entered handle exists.
+2. time-based tweet segmentation for influencers
+   1. Segment tweets into percentiles. Try and find out patterns in time.
+3. Classify users into haters and loyal customers using coefficient of variance.
+4. Average Tweets per week sorta thing.
+5. Demographic Analysis can be provided if the user has disclosed their Location
+6. Add Trend analysis to replies and Sentiment analysis to self tweets
+7. Make it handle only.

@@ -26,6 +26,9 @@ export default function InfoCard(props) {
         <Typography variant="h3" style={{ color: "rgba(63,61,86,0.9)" }}>
           {props.content}
         </Typography>
+        <Typography variant="body1" style={{ color: "rgba(63,61,86,0.6)" }}>
+          {props.inference}
+        </Typography>
       </CardContent>
     </Card>
   );

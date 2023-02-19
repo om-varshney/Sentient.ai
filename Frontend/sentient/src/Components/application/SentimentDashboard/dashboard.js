@@ -7,7 +7,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import SideNav from "../sideNav";
 import NewQueryButton from "../../fab";
-import InfoCard from "./infoCard";
+import DoughnutCard from "./doughnutCard";
 import ChartCard from "./chartCard";
 import RadarCard from "./radarCard";
 
@@ -68,19 +68,16 @@ export const SentimentDashboard = () => {
           </Grid>
         </Grid>
         <Grid item container xs={12} spacing={1}>
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             <RadarCard />
           </Grid>
-          <Grid item xs={3}>
-            <InfoCard />
-          </Grid>
-        </Grid>
-        <Grid item container xs={12} spacing={1}>
-          <Grid item xs={3}>
-            <InfoCard />
-          </Grid>
-          <Grid item xs={9}>
-            <RadarCard />
+          <Grid item container xs={4} spacing={1} alignContent="flex-start">
+            <Grid item xs={12}>
+              <DoughnutCard />
+            </Grid>
+            <Grid item xs={12}>
+              <DoughnutCard />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

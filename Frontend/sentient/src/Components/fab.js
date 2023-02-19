@@ -5,6 +5,8 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 import { makeStyles } from "@mui/styles";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AddIcon from "@mui/icons-material/Add";
+import { setQueryFiltersView, setView } from "../Redux/actions/sentientActions";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -21,13 +23,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const actions = [
-  { icon: <EditRoundedIcon />, name: "Edit Search Filters" },
-  { icon: <AddIcon />, name: "Start New Search" },
-];
+const setHome = (dispatch) => {
+  dispatch(
+    setView({
+      homeState: true,
+      trendDashboard: false,
+      sentimentDashboard: false,
+    })
+  );
+};
+
+const editQuery = (dispatch) => {
+  dispatch(setQueryFiltersView(true));
+};
 
 export default function NewQueryButton() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   return (
     <SpeedDial
       ariaLabel="SpeedDial basic example"
@@ -35,13 +48,18 @@ export default function NewQueryButton() {
       icon={<SpeedDialIcon />}
       className={classes.fab}
     >
-      {actions.map((action) => (
-        <SpeedDialAction
-          key={action.name}
-          icon={action.icon}
-          tooltipTitle={action.name}
-        />
-      ))}
+      <SpeedDialAction
+        key="Edit Search Filters"
+        icon={<EditRoundedIcon />}
+        tooltipTitle="Edit Search Filters"
+        onClick={() => editQuery(dispatch)}
+      />
+      <SpeedDialAction
+        key="Start New Search"
+        icon={<AddIcon />}
+        tooltipTitle="Start New Search"
+        onClick={() => setHome(dispatch)}
+      />
     </SpeedDial>
   );
 }

@@ -12,6 +12,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import leaves_1 from "../../Assets/Leaves_1.png";
 import leaves_2 from "../../Assets/Leaves_2.png";
+import { useDispatch } from "react-redux";
+import { setQueryFiltersView } from "../../Redux/actions/sentientActions";
 
 const useStyles = makeStyles((theme) => ({
   filterTitle: {
@@ -121,11 +123,13 @@ const PickDate = ({ label, helperText }) => {
 
 export default function Filters(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(props.open);
   useEffect(() => setOpen(props.open), [props.open]);
 
   const handleClose = () => {
     setOpen(false);
+    dispatch(setQueryFiltersView(false));
   };
 
   return (
@@ -179,6 +183,7 @@ export default function Filters(props) {
             variant="contained"
             className={classes.secondaryButton}
             size="large"
+            onClick={handleClose}
             // endIcon={<CloseIcon />}
           >
             <span style={{ fontWeight: 550 }}>Cancel</span>

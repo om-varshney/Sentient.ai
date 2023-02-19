@@ -49,33 +49,33 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = ["Happy", "Angry", "Surprise", "Sad", "Fear"];
 
 export const data = {
   labels,
   datasets: [
     {
       label: "2021",
-      data: [12, 14, 16, 18, 9, 5, 30],
+      data: [0.57762792, 0.28462649, 0.70438316, 0.88914215, 0.20583956],
       borderColor: "rgba(244,118,239,1)",
       backgroundColor: "rgba(244,118,239,0.5)",
-      borderRadius: 50,
+      borderRadius: 4,
       borderWidth: 2,
     },
     {
       label: "2022",
-      data: [23, 34, 1, 2, 56, 22, 12],
+      data: [0.48356862, 0.48569303, 0.08021181, 0.64363857, 0.64410439],
       borderColor: "rgba(106,112,255,1)",
       backgroundColor: "rgba(106,112,255,0.5)",
-      borderRadius: 50,
+      borderRadius: 4,
       borderWidth: 2,
     },
     {
       label: "2023",
-      data: [55, 34, 15, 30, 4, 29, 88],
+      data: [0.60680703, 0.98198985, 0.37310414, 0.10417164, 0.74886403],
       borderColor: "rgba(135,191,16,1)",
       backgroundColor: "rgba(135,191,16,0.5)",
-      borderRadius: 50,
+      borderRadius: 4,
       borderWidth: 2,
     },
   ],

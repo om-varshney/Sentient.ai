@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const HomePage = (props) => {
+export const HomePage = () => {
   const classes = useStyles();
 
   return (
@@ -97,7 +97,6 @@ export const HomePage = (props) => {
         alt=""
         className={classes.backgroundEffect3}
       />
-      <Filters open={props.filterOpen} />
       <NavBar />
       <Grid item container xs={9} className={classes.heroSection}>
         <Grid item container xs={6} className={classes.HSTextContainer}>
@@ -112,10 +111,7 @@ export const HomePage = (props) => {
             </Typography>
           </Grid>
           <Grid item xs={12} style={{ marginTop: "5rem" }}>
-            <MainInput
-              placeHolderText="Enter @mention or #hashtag"
-              width={90}
-            />
+            <MainInput placeHolderText="Enter @mention" width={90} />
           </Grid>
         </Grid>
         <Grid item xs={6} className={classes.HSImageContainer}>

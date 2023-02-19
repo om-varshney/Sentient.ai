@@ -65,16 +65,32 @@ export const BasicDashboard = () => {
           </Grid>
           <Grid item container xs={6} spacing={1}>
             <Grid item xs={6}>
-              <InfoCard title="Average Likes" content={"16.1k"} />
+              <InfoCard
+                title="Average Likes"
+                content={"16.1k"}
+                inference={"-1% in the last month"}
+              />
             </Grid>
             <Grid item xs={6}>
-              <InfoCard title="Average Views" content={"4.2m"} />
+              <InfoCard
+                title="Average Views"
+                content={"4.2m"}
+                inference={"+5% in the last month"}
+              />
             </Grid>
             <Grid item xs={6}>
-              <InfoCard title="Average Retweets" content={"2.3k"} />
+              <InfoCard
+                title="Average Retweets"
+                content={"2.3k"}
+                inference={"-3.2% in the last month"}
+              />
             </Grid>
             <Grid item xs={6}>
-              <InfoCard title="Average Quote Tweets" content={"1.8k"} />
+              <InfoCard
+                title="Average Quote Tweets"
+                content={"1.8k"}
+                inference={"+4.4% in the last month"}
+              />
             </Grid>
           </Grid>
         </Grid>

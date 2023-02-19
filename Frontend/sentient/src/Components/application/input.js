@@ -46,7 +46,7 @@ const onSearch = (query, dispatch) => {
     dispatch(
       setNotificationContent({
         type: "warning",
-        msg: "Please provide a Twitter handle or Hashtag",
+        msg: "Please provide a Twitter handle",
         id: Math.random(),
       })
     );
@@ -61,7 +61,7 @@ const openFilters = (query, dispatch) => {
     dispatch(
       setNotificationContent({
         type: "warning",
-        msg: "Please provide a Twitter handle or Hashtag",
+        msg: "Please provide a Twitter handle",
         id: Math.random(),
       })
     );
