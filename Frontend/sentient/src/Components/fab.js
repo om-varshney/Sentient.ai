@@ -34,6 +34,13 @@ const setHome = (dispatch) => {
 };
 
 const editQuery = (dispatch) => {
+  dispatch(
+    setView({
+      homeState: true,
+      trendDashboard: false,
+      sentimentDashboard: false,
+    })
+  );
   dispatch(setQueryFiltersView(true));
 };
 

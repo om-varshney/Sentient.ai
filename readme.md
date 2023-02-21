@@ -20,4 +20,6 @@ updating in real time. Further I would like to have interactive Charts for the u
 4. Average Tweets per week sorta thing.
 5. Demographic Analysis can be provided if the user has disclosed their Location
 6. Add Trend analysis to replies and Sentiment analysis to self tweets
-7. Make it handle only.
+7. Make it about twitter handle only.
+8. So like top 3 commentors, and just like the radar chart we have, just add commentor name instead of polarity
+   1. Side by side provide an analysis on the commentor using bar chart and pie

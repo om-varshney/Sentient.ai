@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
-import leaves_1 from "../../../Assets/Leaves_1.png";
-import leaves_2 from "../../../Assets/Leaves_2.png";
+import leaves_1 from "../../../Assets/Leaves Blurred 2.png";
+import leaves_2 from "../../../Assets/Leaves Blurred.png";
 import { NavBar } from "../../navbar";
 import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import NewQueryButton from "../../fab";
 import DoughnutCard from "./doughnutCard";
 import ChartCard from "./chartCard";
 import RadarCard from "./radarCard";
+import ProfileCard from "../basicDashboard/profileCard";
 
 const useStyles = makeStyles((theme) => ({
   dashboard: {
@@ -17,10 +18,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100vh",
     flexDirection: "column",
     justifyContent: "center",
-    backgroundColor: "#B5E3FF",
+    backgroundColor: "aliceblue",
   },
   dashboardContainer: {
-    backgroundColor: "transparent",
     width: "100vw",
     minHeight: "90vh",
     display: "flex",
@@ -57,9 +57,14 @@ export const SentimentDashboard = () => {
         container
         xs={9}
         className={classes.dashboardContainer}
-        spacing={1}
+        spacing={3}
       >
-        <Grid item container xs={12} spacing={1}>
+        <Grid item container xs={12} spacing={3}>
+          <Grid item xs={12}>
+            <ProfileCard />
+          </Grid>
+        </Grid>
+        <Grid item container xs={12} spacing={3}>
           <Grid item xs={7}>
             <ChartCard />
           </Grid>
@@ -67,17 +72,27 @@ export const SentimentDashboard = () => {
             <ChartCard />
           </Grid>
         </Grid>
-        <Grid item container xs={12} spacing={1}>
+        <Grid item container xs={12} spacing={3}>
           <Grid item xs={8}>
             <RadarCard />
           </Grid>
-          <Grid item container xs={4} spacing={1} alignContent="flex-start">
+          <Grid item container xs={4} spacing={3} alignContent="flex-start">
             <Grid item xs={12}>
               <DoughnutCard />
             </Grid>
             <Grid item xs={12}>
               <DoughnutCard />
             </Grid>
+          </Grid>
+        </Grid>
+        <Grid item container xs={12} spacing={3}>
+          <Grid item container xs={4} spacing={3} alignContent="flex-start">
+            <Grid item xs={12}>
+              <ChartCard />
+            </Grid>
+          </Grid>
+          <Grid item xs={8}>
+            <RadarCard />
           </Grid>
         </Grid>
       </Grid>

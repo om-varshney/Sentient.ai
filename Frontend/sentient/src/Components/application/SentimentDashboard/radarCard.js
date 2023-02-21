@@ -13,6 +13,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Radar } from "react-chartjs-2";
+import { faker } from "@faker-js/faker";
 
 ChartJS.register(
   RadialLinearScale,
@@ -25,7 +26,15 @@ ChartJS.register(
 
 const useStyles = makeStyles((theme) => ({
   radarCard: {
-    backgroundColor: "#ceecfd !important",
+    backgroundColor: "aliceblue !important",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    borderRadius: "12px !important",
+    boxShadow: "none !important",
+    "&:hover": {
+      border: "1px solid transparent",
+      cursor: "pointer",
+      boxShadow: "20px 20px 60px #ccd3d9, -20px -20px 60px #ffffff !important",
+    },
     "& .MuiCardHeader-title": {
       fontSize: "1rem !important",
     },
@@ -44,8 +53,8 @@ export const options = {
       position: "top",
     },
     title: {
-      display: false,
-      text: "Chart.js Bar Chart",
+      display: true,
+      text: "Multi Database Radar Chart",
     },
   },
   scales: {
@@ -65,21 +74,21 @@ export const data = {
   datasets: [
     {
       label: "Positive",
-      data: [102, 101, 94, 110, 93],
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "#F476EF",
       backgroundColor: "rgba(244,118,239,0.5)",
       tension: 0.1,
     },
     {
       label: "Negative",
-      data: [103, 113, 107, 89, 88],
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "#6A70FF",
       backgroundColor: "rgba(106,112,255,0.5)",
       tension: 0.1,
     },
     {
       label: "Neutral",
-      data: [100, 87, 98, 92, 123],
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "#87BF10",
       backgroundColor: "rgba(135,191,16,0.5)",
       tension: 0.1,
@@ -91,7 +100,7 @@ export default function RadarCard() {
   const classes = useStyles();
   return (
     <Card className={classes.radarCard}>
-      <CardHeader title="Radar Chart" className={classes.radarTitle} />
+      {/*<CardHeader title="Radar Chart" className={classes.radarTitle} />*/}
       <CardContent>
         <div
           style={{

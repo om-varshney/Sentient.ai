@@ -5,11 +5,20 @@ import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Radar } from "react-chartjs-2";
+import { faker } from "@faker-js/faker";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 const useStyles = makeStyles((theme) => ({
   doughnutCard: {
-    backgroundColor: "#ceecfd !important",
+    backgroundColor: "aliceblue !important",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    borderRadius: "12px !important",
+    boxShadow: "none !important",
+    "&:hover": {
+      border: "1px solid transparent",
+      cursor: "pointer",
+      boxShadow: "20px 20px 60px #ccd3d9, -20px -20px 60px #ffffff !important",
+    },
     "& .MuiCardHeader-title": {
       fontSize: "1rem !important",
     },
@@ -28,18 +37,18 @@ export const options = {
       position: "top",
     },
     title: {
-      display: false,
-      text: "Chart.js Bar Chart",
+      display: true,
+      text: "Emotion Pie Chart",
     },
   },
 };
-
+const labels = ["Happy", "Angry", "Surprise", "Sad", "Fear"];
 export const data = {
-  labels: ["Happy", "Angry", "Surprise", "Sad", "Fear"],
+  labels,
   datasets: [
     {
       label: "Percentage",
-      data: [0.153067, 0.060004, 0.162693, 0.290934, 0.333302],
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       backgroundColor: [
         "rgba(244,118,239,0.5)",
         "rgba(106,112,255,0.5)",
@@ -57,11 +66,11 @@ export default function DoughnutCard() {
   const classes = useStyles();
   return (
     <Card className={classes.doughnutCard}>
-      <CardHeader title="Info" className={classes.doughnutTitle} />
+      {/*<CardHeader title="Info" className={classes.doughnutTitle} />*/}
       <CardContent>
         <div
           style={{
-            height: "30vh",
+            height: "35vh",
           }}
         >
           <Doughnut data={data} options={options} type="doughnut" />

@@ -12,10 +12,19 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { faker } from "@faker-js/faker";
 
 const useStyles = makeStyles((theme) => ({
   chartCard: {
-    backgroundColor: "#ceecfd !important",
+    backgroundColor: "aliceblue !important",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    borderRadius: "12px !important",
+    boxShadow: "none !important",
+    "&:hover": {
+      border: "1px solid transparent",
+      cursor: "pointer",
+      boxShadow: "20px 20px 60px #ccd3d9, -20px -20px 60px #ffffff !important",
+    },
     "& .MuiCardHeader-title": {
       fontSize: "1rem !important",
     },
@@ -43,8 +52,8 @@ export const options = {
       position: "top",
     },
     title: {
-      display: false,
-      text: "Chart.js Bar Chart",
+      display: true,
+      text: "Emotion Comparison Bar Chart",
     },
   },
 };
@@ -56,7 +65,7 @@ export const data = {
   datasets: [
     {
       label: "2021",
-      data: [0.57762792, 0.28462649, 0.70438316, 0.88914215, 0.20583956],
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "rgba(244,118,239,1)",
       backgroundColor: "rgba(244,118,239,0.5)",
       borderRadius: 4,
@@ -64,7 +73,7 @@ export const data = {
     },
     {
       label: "2022",
-      data: [0.48356862, 0.48569303, 0.08021181, 0.64363857, 0.64410439],
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "rgba(106,112,255,1)",
       backgroundColor: "rgba(106,112,255,0.5)",
       borderRadius: 4,
@@ -72,7 +81,7 @@ export const data = {
     },
     {
       label: "2023",
-      data: [0.60680703, 0.98198985, 0.37310414, 0.10417164, 0.74886403],
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "rgba(135,191,16,1)",
       backgroundColor: "rgba(135,191,16,0.5)",
       borderRadius: 4,
@@ -85,7 +94,7 @@ export default function ChartCard() {
   const classes = useStyles();
   return (
     <Card className={classes.chartCard}>
-      <CardHeader title="Bar Chart" className={classes.chartTitle} />
+      {/*<CardHeader title="Bar Chart" className={classes.chartTitle} />*/}
       <CardContent>
         <div
           style={{
