@@ -14,6 +14,7 @@ import ScatterCard from "./ScatterCard";
 import TrendCard from "./trendCard";
 import InfoCard from "./infoCard";
 import DoughnutCard from "../SentimentDashboard/doughnutCard";
+import RadarCard from "../SentimentDashboard/radarCard";
 
 const useStyles = makeStyles((theme) => ({
   dashboard: {
@@ -146,18 +147,20 @@ export const BasicDashboard = () => {
           </Grid>
         </Grid>
         <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
-          <Grid item xs={6}>
-            <TrendCard />
+          <Grid item xs={8}>
+            <RadarCard />
           </Grid>
-          <Grid item xs={4}>
-            <DoughnutCard />
-          </Grid>
-          <Grid item xs={2}>
-            <InfoCard
-              content="122"
-              inference={1}
-              message="Retweets per thousand views"
-            />
+          <Grid item container xs={4} spacing={3} alignContent="flex-start">
+            <Grid item xs={12}>
+              <TrendCard />
+            </Grid>
+            <Grid item xs={12}>
+              <InfoCard
+                content="Morning"
+                inference={1}
+                message="Is the best time to tweet"
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

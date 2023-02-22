@@ -88,7 +88,7 @@ export const data = {
   labels,
   datasets: [
     {
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      data: labels.map(() => faker.datatype.number({ min: 1000, max: 1000.8 })),
       borderColor: "#6A70FF",
       backgroundColor: "rgba(106,112,255,0.2)",
       pointBackgroundColor: "#6A70FF",

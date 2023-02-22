@@ -80,7 +80,7 @@ export const options = {
   },
 };
 
-const labels = Array.from({ length: 50 }, (v, k) => k + 1);
+const labels = Array.from({ length: 24 }, (v, k) => k + 1);
 
 export const data = {
   labels,
