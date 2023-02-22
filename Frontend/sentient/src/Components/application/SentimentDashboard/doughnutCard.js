@@ -39,6 +39,10 @@ export const options = {
     title: {
       display: true,
       text: "Emotion Pie Chart",
+      font: {
+        size: 14,
+        family: "Roboto",
+      },
     },
   },
 };

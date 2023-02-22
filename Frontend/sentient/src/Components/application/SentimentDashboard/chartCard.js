@@ -54,6 +54,10 @@ export const options = {
     title: {
       display: true,
       text: "Emotion Comparison Bar Chart",
+      font: {
+        size: 14,
+        family: "Roboto",
+      },
     },
   },
 };

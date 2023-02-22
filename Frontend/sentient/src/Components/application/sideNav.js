@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
     left: "3vw",
     top: "25vh",
     padding: "0 0.5vw",
-    backgroundColor: "aliceblue",
-    border: "1px solid rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#eef2f6",
+    // border: "1px solid rgba(0, 0, 0, 0.1)",
     // "&:hover": {
     //   boxShadow: "20px 20px 60px #ccd3d9, -20px -20px 60px #ffffff !important",
     // },

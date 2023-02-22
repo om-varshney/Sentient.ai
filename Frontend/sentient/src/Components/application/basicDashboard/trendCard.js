@@ -1,42 +1,44 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { CardHeader } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
-import React from "react";
 import {
   Chart as ChartJS,
+  CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  Title,
   Tooltip,
   Legend,
 } from "chart.js";
-import { Scatter } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 
-ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const useStyles = makeStyles((theme) => ({
-  chartCard: {
+  trendCard: {
     backgroundColor: "aliceblue !important",
     border: "1px solid rgba(0, 0, 0, 0.1)",
     borderRadius: "12px !important",
     boxShadow: "none !important",
     "&:hover": {
       border: "1px solid transparent",
-      cursor: "pointer",
       boxShadow: "20px 20px 60px #caced1, -20px -20px 60px #ffffff !important",
+      cursor: "pointer",
     },
     "& .MuiCardHeader-title": {
       fontSize: "1rem !important",
     },
-  },
-  chartTitle: {
-    backgroundColor: "rgba(106,112,255,0.8)",
-    color: "#fff",
-  },
-  chartContent: {
-    height: "50vh !important",
   },
 }));
 
@@ -45,52 +47,67 @@ export const options = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: "top",
+      display: true,
     },
     title: {
       display: true,
-      text: "Scatter Plot Likes Vs Impressions",
+      text: "Followers With Time",
       font: {
-        size: 14,
+        size: 18,
         family: "Roboto",
       },
+    },
+    tooltip: {
+      callbacks: {
+        title: () => null,
+      },
+    },
+  },
+  scales: {
+    x: {
+      display: false,
+    },
+    y: {
+      beginAtZero: true,
     },
   },
   elements: {
     point: {
-      borderWidth: 2,
-      radius: 8,
-      hoverRadius: 10,
+      borderWidth: 1,
+      radius: 4,
+      hoverRadius: 6,
     },
   },
 };
 
+const labels = Array.from({ length: 50 }, (v, k) => k + 1);
+
 export const data = {
+  labels,
   datasets: [
     {
-      label: "Views/Likes",
-      data: Array.from({ length: 50 }, () => ({
-        x: faker.datatype.number({ min: 0, max: 5000 }),
-        y: faker.datatype.number({ min: 200, max: 500 }),
-      })),
-      borderColor: "rgba(244,118,239,1)",
-      backgroundColor: "rgba(244,118,239,0.5)",
+      label: "Followers",
+      data: labels.map(() => faker.datatype.number({ min: 500, max: 1000 })),
+      borderColor: "#87BF10",
+      backgroundColor: "rgba(135,191,16,0.2)",
+      pointBackgroundColor: "#87BF10",
+      tension: 0.4,
+      fill: "origin",
     },
   ],
 };
 
-export default function ScatterCard(props) {
+export default function TrendCard(props) {
   const classes = useStyles();
   return (
-    <Card className={classes.chartCard} elevation={1}>
-      {/*<CardHeader title={props.title} className={classes.chartTitle} />*/}
+    <Card className={classes.trendCard}>
       <CardContent>
         <div
           style={{
-            height: "40vh",
+            height: "35vh",
           }}
         >
-          <Scatter options={options} data={data} />
+          <Line options={options} data={data} type={"line"} />
         </div>
       </CardContent>
     </Card>

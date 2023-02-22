@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "transparent !important",
     height: "100%",
     borderRadius: "4px",
+    paddingTop: 0,
   },
   backgroundEffect1: {
     position: "absolute",

@@ -55,6 +55,10 @@ export const options = {
     title: {
       display: true,
       text: "Multi Database Radar Chart",
+      font: {
+        size: 18,
+        family: "Roboto",
+      },
     },
   },
   scales: {
@@ -63,6 +67,13 @@ export const options = {
         // https://www.chartjs.org/docs/latest/axes/radial/#ticks
         backdropColor: "transparent", // https://www.chartjs.org/docs/latest/axes/_common_ticks.html
       },
+    },
+  },
+  elements: {
+    point: {
+      borderWidth: 1,
+      radius: 4,
+      hoverRadius: 6,
     },
   },
 };
@@ -76,21 +87,24 @@ export const data = {
       label: "Positive",
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "#F476EF",
-      backgroundColor: "rgba(244,118,239,0.5)",
+      backgroundColor: "rgba(244,118,239,0.2)",
+      pointBackgroundColor: "#F476EF",
       tension: 0.1,
     },
     {
       label: "Negative",
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "#6A70FF",
-      backgroundColor: "rgba(106,112,255,0.5)",
+      backgroundColor: "rgba(106,112,255,0.2)",
+      pointBackgroundColor: "#6A70FF",
       tension: 0.1,
     },
     {
       label: "Neutral",
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "#87BF10",
-      backgroundColor: "rgba(135,191,16,0.5)",
+      backgroundColor: "rgba(135,191,16,0.2)",
+      pointBackgroundColor: "#87BF10",
       tension: 0.1,
     },
   ],

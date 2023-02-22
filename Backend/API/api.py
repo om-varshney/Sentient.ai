@@ -1,6 +1,6 @@
 import time
 from flask import Flask
-import basic
+import interface
 
 app = Flask(__name__)
 
