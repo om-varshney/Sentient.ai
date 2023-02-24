@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   HSSecondaryText: {
     fontFamily: "roboto !important",
     fontWeight: "normal !important",
-    fontSize: "2rem !important",
+    fontSize: "1.8rem !important",
     color: "#3F3D56 !important",
   },
   HSPrimaryButton: {
@@ -104,8 +104,8 @@ export const HomePage = () => {
               saying about you
             </Typography>
             <Typography variant="body1" className={classes.HSSecondaryText}>
-              Powered by <span className={classes.HSHighlight}>#AI</span>{" "}
-              working for you.
+              Twitter Bot powered by{" "}
+              <span className={classes.HSHighlight}>#AI</span>, working for you.
             </Typography>
           </Grid>
           <Grid item xs={12} style={{ marginTop: "5rem" }}>

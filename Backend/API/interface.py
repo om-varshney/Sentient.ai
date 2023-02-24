@@ -10,4 +10,5 @@ def get_trend_data(handle):
 
 
 if __name__ == "__main__":
-    print(get_trend_data("@_SuccessMinded_"))
+    print(get_trend_data("@elonmusk"))
+    print(get_trend_data("@BillGates"))

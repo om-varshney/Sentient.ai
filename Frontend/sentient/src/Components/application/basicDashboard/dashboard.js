@@ -113,21 +113,41 @@ export const BasicDashboard = ({ handle, data, message }) => {
             <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
               <Grid item xs={10}>
                 <TrendCard
-                  data={[data["followers_trend"]]}
-                  label_set={["Followers"]}
-                  title={"Followers Trend over Time"}
-                  x_label={"Time measured in Tweets"}
-                  y_label={"Followers"}
+                  data={[data["span"]["trend"]]}
+                  label_set={["Tweets"]}
+                  title={`Tweeting Trend over Time (${data["span"]["span"]} days)`}
+                  x_label={"Time"}
+                  y_label={"Number of Tweets"}
                 />
               </Grid>
-              <Grid item xs={2}>
-                <InfoCard
-                  content={data["fpt"]["fpt"]}
-                  inference={data["fpt"]["inference"]}
-                  message="Followers Per Tweet"
-                />
+              <Grid item container xs={2} spacing={3} alignContent="flex-start">
+                <Grid item xs={12}>
+                  <InfoCard
+                    content={data["span"]["avg"]}
+                    message={"Tweets per day"}
+                    inference={data["span"]["inference"]}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InfoCard
+                    content={data["fpt"]["fpt"]}
+                    inference={data["fpt"]["inference"]}
+                    message="Followers Per Tweet"
+                  />
+                </Grid>
               </Grid>
             </Grid>
+            {/*<Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>*/}
+            {/*  <Grid item xs={10}>*/}
+            {/*    <TrendCard*/}
+            {/*      data={[data["followers_trend"]]}*/}
+            {/*      label_set={["Followers"]}*/}
+            {/*      title={"Followers Trend over Time"}*/}
+            {/*      x_label={"Time measured in Tweets"}*/}
+            {/*      y_label={"Followers"}*/}
+            {/*    />*/}
+            {/*  </Grid>*/}
+            {/*</Grid>*/}
             <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
               <Grid item container xs={2} spacing={3} alignContent="flex-start">
                 <Grid item xs={12}>
@@ -148,7 +168,7 @@ export const BasicDashboard = ({ handle, data, message }) => {
               <Grid item xs={5}>
                 <ScatterCard
                   title="Likes Vs Views"
-                  label="Likes | Views"
+                  label="Views | Likes"
                   data_x={data["likes_vs_views"]["x"]}
                   data_y={data["likes_vs_views"]["y"]}
                   x_label={"Views"}
@@ -158,7 +178,7 @@ export const BasicDashboard = ({ handle, data, message }) => {
               <Grid item xs={5}>
                 <ScatterCard
                   title="Retweets Vs Views"
-                  label="Retweets | Views"
+                  label="Views | Retweets"
                   data_x={data["retweets_vs_views"]["x"]}
                   data_y={data["retweets_vs_views"]["y"]}
                   x_label={"Views"}

@@ -39,6 +39,7 @@ class TrendIntelligence:
                 "views",
             ]
         )
+        self.dates = None
         write_msg("Preprocessing Handle Tweets")
         self.preprocess()
 
@@ -49,12 +50,21 @@ class TrendIntelligence:
 
     def preprocess(self):
         self.df["date"] = pd.to_datetime(self.df["date"])
+        self.dates = self.df["date"]
         self.df["Year"] = self.df["date"].dt.year
         self.df["Month"] = self.df["date"].dt.month
         self.df["Day"] = self.df["date"].dt.day
         self.df["Time"] = self.df["date"].dt.hour
         self.df.drop("date", inplace=True, axis=1)
-        self.df.fillna(self.df.median(numeric_only=True), inplace=True)
+        nan_ = self.df.columns[self.df.isna().any()].tolist()
+        for i in nan_:
+            # TODO: Check this while loop.
+            while self.df.loc[:, i].isnull().sum() != 0:
+                self.df.loc[:, i].fillna(
+                    np.random.normal(self.df.loc[:, i].mean(), self.df.loc[:, i].std()),
+                    limit=1,
+                    inplace=True
+                )
         write_msg("Preprocessing Complete")
 
     def likes_trend(self):
@@ -154,8 +164,20 @@ class TrendIntelligence:
             }
         }
 
+    def tweet_span(self):
+        span = self.dates.iloc[0] - self.dates.iloc[-1]
+        split = np.array_split(self.dates.dropna(), 20)
+        trend = [len(value) / ((value.iloc[0] - value.iloc[-1]).days or 1) for value in split[::-1]]
+        return {
+            "span": span.days,
+            "avg": self.collector.collected / span.days,
+            "trend": trend,
+            "inference": bool(trend[-1] > sum(trend[:-1]) / 19)
+        }
+
     def analysis_json(self):
         return {
+            "span": self.tweet_span(),
             "likes_trend": self.likes_trend(),
             "views_trend": self.views_trend(),
             "re_tweets_trend": self.re_tweets_trend(),

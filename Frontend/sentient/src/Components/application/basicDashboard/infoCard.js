@@ -40,7 +40,7 @@ export default function InfoCard(props) {
                   maximumFractionDigits: 1,
                 }).format(props.content)}
           </Typography>
-          {props.inference ? (
+          {props.inference === null ? null : props.inference ? (
             <ArrowUpwardIcon
               style={{
                 fontSize: "32px",

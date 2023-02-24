@@ -12,6 +12,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { colors } from "../../../utils/colors";
 
 ChartJS.register(
   CategoryScale,
@@ -94,11 +95,6 @@ const getOptions = (title, x_label, y_label) => {
 
 const getData = (dataset, label_set) => {
   const labels = Array.from({ length: dataset[0].length }, (v, k) => k + 1);
-  const colors = [
-    ["#87BF10", "rgba(135,191,16,0.2)", "#87BF10"],
-    ["#6A70FF", "rgba(106,112,255,0.2)", "#6A70FF"],
-    ["#F476EF", "rgba(244,118,239,0.2)", "#F476EF"],
-  ];
   return {
     labels,
     datasets: dataset.map((data, idx) => {
