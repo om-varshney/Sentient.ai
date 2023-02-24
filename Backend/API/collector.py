@@ -1,7 +1,6 @@
 import snscrape.modules.twitter as snt
 from emotion import get_emotion_polarity
 from messenger import write_msg
-import intelligence
 import datetime
 
 

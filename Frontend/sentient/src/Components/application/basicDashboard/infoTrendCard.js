@@ -1,6 +1,6 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { CardHeader, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import {
@@ -14,7 +14,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
@@ -103,7 +102,6 @@ export default function InfoTrendCard(props) {
   const classes = useStyles();
   return (
     <Card className={classes.infoCard}>
-      {/*<CardHeader title={props.title} className={classes.infoTitle} />*/}
       <CardContent>
         <Stack
           direction="row"

@@ -3,12 +3,14 @@ import { makeStyles } from "@mui/styles";
 import leaves_1 from "../../../Assets/Leaves_1.png";
 import leaves_2 from "../../../Assets/Leaves_2.png";
 import logo from "../../../Assets/Logo.svg";
+import meditate from "../../../Assets/Meditate.png";
 import Typography from "@mui/material/Typography";
-import { Puff } from "react-loader-spinner";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    height: "4rem",
+    height: "3rem",
+    position: "fixed",
+    top: "5vh",
   },
   loadingPage: {
     backgroundColor: "#eef2f6",
@@ -47,14 +49,11 @@ export const PreLoad = (props) => {
       <img src={leaves_1} alt="" className={classes.backgroundEffect1} />
       <img src={leaves_2} alt="" className={classes.backgroundEffect2} />
       <img src={logo} alt="Sentient Logo" className={classes.logo} />
+      <img src={meditate} alt="meditate" width="30%" id="meditate" />
+      <Typography variant={"h6"} style={{ color: "rgba(63,61,86,0.9)" }}>
+        Sit back and relax while Sentient prepares your Analytics Report.
+      </Typography>
       <Typography className={classes.mainHeading}>{props.message}</Typography>
-      <Puff
-        height="100"
-        width="100"
-        color="#605D83"
-        ariaLabel="puff-loading"
-        visible={true}
-      />
     </Grid>
   );
 };

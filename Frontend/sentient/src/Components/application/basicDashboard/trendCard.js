@@ -1,6 +1,5 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import {
   Chart as ChartJS,
@@ -13,7 +12,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 
 ChartJS.register(
   CategoryScale,
@@ -42,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getOptions = (title) => {
+const getOptions = (title, x_label, y_label) => {
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -66,9 +64,14 @@ const getOptions = (title) => {
     },
     scales: {
       x: {
+        title: {
+          text: x_label,
+          display: true,
+        },
         display: true,
       },
       y: {
+        title: { text: y_label, display: true },
         ticks: {
           callback: (value) => {
             return Intl.NumberFormat("en-US", {
@@ -123,7 +126,7 @@ export default function TrendCard(props) {
           }}
         >
           <Line
-            options={getOptions(props.title)}
+            options={getOptions(props.title, props.x_label, props.y_label)}
             data={getData(props.data, props.label_set)}
             type={"line"}
           />

@@ -116,6 +116,8 @@ export const BasicDashboard = ({ handle, data, message }) => {
                   data={[data["followers_trend"]]}
                   label_set={["Followers"]}
                   title={"Followers Trend over Time"}
+                  x_label={"Time measured in Tweets"}
+                  y_label={"Followers"}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -146,17 +148,21 @@ export const BasicDashboard = ({ handle, data, message }) => {
               <Grid item xs={5}>
                 <ScatterCard
                   title="Likes Vs Views"
-                  label="Likes/Views"
+                  label="Likes | Views"
                   data_x={data["likes_vs_views"]["x"]}
                   data_y={data["likes_vs_views"]["y"]}
+                  x_label={"Views"}
+                  y_label={"Likes"}
                 />
               </Grid>
               <Grid item xs={5}>
                 <ScatterCard
                   title="Retweets Vs Views"
-                  label="Retweets/Views"
+                  label="Retweets | Views"
                   data_x={data["retweets_vs_views"]["x"]}
                   data_y={data["retweets_vs_views"]["y"]}
+                  x_label={"Views"}
+                  y_label={"Retweets"}
                 />
               </Grid>
             </Grid>
@@ -164,12 +170,12 @@ export const BasicDashboard = ({ handle, data, message }) => {
               <Grid item xs={6}>
                 <RadarCard
                   labels={[
-                    "midnight",
-                    "early morning",
-                    "morning",
-                    "afternoon",
-                    "evening",
-                    "night",
+                    "Midnight (00 - 04 hours)",
+                    "Early Morning (04 - 08 hours)",
+                    "Morning (08 - 12 hours)",
+                    "Afternoon (12 - 16 hours)",
+                    "Evening (16 - 20 hours)",
+                    "Night (20 - 00 hours)",
                   ]}
                   secondary_labels={["views", "likes", "retweets"]}
                   data={[
@@ -206,7 +212,9 @@ export const BasicDashboard = ({ handle, data, message }) => {
                       data["time_trends"]["retweets"],
                     ]}
                     label_set={["Views", "Likes", "Retweets"]}
-                    title={"Time Trend Analysis"}
+                    title={"Hourly Trend Analysis"}
+                    x_label={"Time in Hours"}
+                    y_label={"Views | Likes | Retweets"}
                   />
                 </Grid>
               </Grid>

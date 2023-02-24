@@ -84,3 +84,20 @@ img {
   color: #3F3D56 !important;
   background-color: #87BF10 !important;
 }
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+#meditate {
+    transform: translatey(0);
+	animation: float 4s ease-in-out infinite;
+}

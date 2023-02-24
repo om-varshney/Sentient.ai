@@ -1,6 +1,5 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { CardHeader } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import {
@@ -12,7 +11,6 @@ import {
   Legend,
 } from "chart.js";
 import { Scatter } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
@@ -40,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const getOptions = (title) => {
+export const getOptions = (title, x_label, y_label) => {
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -60,12 +58,16 @@ export const getOptions = (title) => {
     elements: {
       point: {
         borderWidth: 2,
-        radius: 8,
-        hoverRadius: 10,
+        radius: 5,
+        hoverRadius: 8,
       },
     },
     scales: {
       x: {
+        title: {
+          text: x_label,
+          display: true,
+        },
         ticks: {
           callback: (value) => {
             return Intl.NumberFormat("en-US", {
@@ -76,6 +78,10 @@ export const getOptions = (title) => {
         },
       },
       y: {
+        title: {
+          text: y_label,
+          display: true,
+        },
         ticks: {
           callback: (value) => {
             return Intl.NumberFormat("en-US", {
@@ -116,7 +122,7 @@ export default function ScatterCard(props) {
           }}
         >
           <Scatter
-            options={getOptions(props.title)}
+            options={getOptions(props.title, props.x_label, props.y_label)}
             data={getData(props.data_x, props.data_y, props.label)}
             type="Scatter"
           />

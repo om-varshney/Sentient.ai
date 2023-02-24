@@ -1,10 +1,10 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
-import welcomeIllustration from "../../../Assets/Welcome Illustration.png";
 import { Button, IconButton, Stack } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { useDispatch } from "react-redux";
+import { setNotificationContent } from "../../../Redux/actions/sentientActions";
 
 const useStyles = makeStyles((theme) => ({
   profileCard: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   primaryButton: {
     position: "absolute",
     borderRadius: "500px !important",
-    // backgroundColor: "rgba(244,118,239,1) !important",
+    textTransform: "none !important",
     backgroundImage: "linear-gradient(45deg, #6A70FF, #FF8AFA) !important",
 
     color: "white !important",
@@ -38,19 +38,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProfileCard(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   return (
     <Card className={classes.profileCard} elevation={0}>
       <CardContent>
-        {/*<img*/}
-        {/*  src={welcomeIllustration}*/}
-        {/*  alt=""*/}
-        {/*  className={classes.backgroundEffect1}*/}
-        {/*/>*/}
         <Stack direction="row" spacing={1}>
           <Button
             size="large"
             className={classes.primaryButton}
             variant="contained"
+            onClick={() =>
+              dispatch(
+                setNotificationContent({
+                  type: "info",
+                  msg: `Analytics Report for ${props.handle}`,
+                  id: Math.random(),
+                })
+              )
+            }
           >
             {props.handle}
           </Button>
@@ -58,6 +64,8 @@ export default function ProfileCard(props) {
             variant="contained"
             size="large"
             className={classes.launchButton}
+            target="_blank"
+            href={`https://twitter.com/${props.handle}`}
           >
             <LaunchIcon />
           </IconButton>

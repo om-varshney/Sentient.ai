@@ -6,6 +6,7 @@ import { makeStyles } from "@mui/styles";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import AddIcon from "@mui/icons-material/Add";
 import {
+  setQuery,
   setQueryFiltersView,
   setTrendData,
   setTrendMessage,
@@ -38,6 +39,7 @@ const setHome = (dispatch) => {
   );
   dispatch(setTrendData({}));
   dispatch(setTrendMessage(""));
+  dispatch(setQuery(""));
 };
 
 const editQuery = (dispatch) => {

@@ -55,8 +55,8 @@ function App() {
       .then((data) => {
         dispatch(setTrendData(data));
         clearInterval(interval);
-      });
-    // .catch((error) => console.log(error));
+      })
+      .catch((error) => console.log(error));
   }, [appState.query, dispatch]);
 
   return (

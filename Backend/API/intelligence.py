@@ -42,6 +42,11 @@ class TrendIntelligence:
         write_msg("Preprocessing Handle Tweets")
         self.preprocess()
 
+    @staticmethod
+    def scale_vector(vec):
+        mx = max(vec) or 1
+        return list(map(lambda elem: elem / mx, vec))
+
     def preprocess(self):
         self.df["date"] = pd.to_datetime(self.df["date"])
         self.df["Year"] = self.df["date"].dt.year
@@ -49,7 +54,7 @@ class TrendIntelligence:
         self.df["Day"] = self.df["date"].dt.day
         self.df["Time"] = self.df["date"].dt.hour
         self.df.drop("date", inplace=True, axis=1)
-        self.df.fillna(self.df.median(), inplace=True)
+        self.df.fillna(self.df.median(numeric_only=True), inplace=True)
         write_msg("Preprocessing Complete")
 
     def likes_trend(self):
@@ -122,30 +127,30 @@ class TrendIntelligence:
             "likes": time_frame["likes"].values.tolist(),
             "retweets": time_frame["retweets"].values.tolist(),
             "segments": {
-                "views": [0 if np.isnan(value) else value for value in [
+                "views": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["views"].values.mean(),
                     time_frame.iloc[4: 8, :]["views"].values.mean(),
                     time_frame.iloc[8: 12, :]["views"].values.mean(),
                     time_frame.iloc[12: 16, :]["views"].values.mean(),
                     time_frame.iloc[16: 20, :]["views"].values.mean(),
                     time_frame.iloc[20:, :]["views"].values.mean(),
-                ]],
-                "likes": [0 if np.isnan(value) else value for value in [
+                ]]),
+                "likes": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["likes"].values.mean(),
                     time_frame.iloc[4: 8, :]["likes"].values.mean(),
                     time_frame.iloc[8: 12, :]["likes"].values.mean(),
                     time_frame.iloc[12: 16, :]["likes"].values.mean(),
                     time_frame.iloc[16: 20, :]["likes"].values.mean(),
                     time_frame.iloc[20:, :]["likes"].values.mean(),
-                ]],
-                "retweets": [0 if np.isnan(value) else value for value in [
+                ]]),
+                "retweets": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["retweets"].values.mean(),
                     time_frame.iloc[4: 8, :]["retweets"].values.mean(),
                     time_frame.iloc[8: 12, :]["retweets"].values.mean(),
                     time_frame.iloc[12: 16, :]["retweets"].values.mean(),
                     time_frame.iloc[16: 20, :]["retweets"].values.mean(),
                     time_frame.iloc[20:, :]["retweets"].values.mean(),
-                ]]
+                ]]),
             }
         }
 

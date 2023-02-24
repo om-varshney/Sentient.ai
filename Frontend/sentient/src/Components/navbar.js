@@ -3,6 +3,7 @@ import { Button, Grid } from "@mui/material";
 import logo from "../Assets/Logo.svg";
 import { useDispatch } from "react-redux";
 import {
+  setQuery,
   setTrendData,
   setTrendMessage,
   setView,
@@ -39,6 +40,7 @@ const setHome = (dispatch) => {
   );
   dispatch(setTrendData({}));
   dispatch(setTrendMessage(""));
+  dispatch(setQuery(""));
 };
 
 export const NavBar = () => {

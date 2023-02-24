@@ -5,10 +5,8 @@ import leaves_2 from "../Assets/Leaves_2.png";
 import heroSectionIllustration from "../Assets/Hero Section Illustration.png";
 import backgroundHighlightImage from "../Assets/Background shade.png";
 import { NavBar } from "./navbar";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import MainInput from "./application/input";
-import Filters from "./application/filters";
-import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   homePage: {
