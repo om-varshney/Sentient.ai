@@ -41,3 +41,21 @@ export const queryFilterViewReducer = (state = false, { type, payload }) => {
       return state;
   }
 };
+
+export const trendMessageReducer = (state = "", { type, payload }) => {
+  switch (type) {
+    case ActionTypes.SET_TREND_MESSAGE:
+      return payload;
+    default:
+      return state;
+  }
+};
+
+export const trendDataReducer = (state = {}, { type, payload }) => {
+  switch (type) {
+    case ActionTypes.SET_TREND_DATA:
+      return payload;
+    default:
+      return state;
+  }
+};

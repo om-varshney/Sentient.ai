@@ -42,59 +42,74 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: true,
-    },
-    title: {
-      display: true,
-      text: "Followers With Time",
-      font: {
-        size: 18,
-        family: "Roboto",
+const getOptions = (title) => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+      },
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 18,
+          family: "Roboto",
+        },
+      },
+      tooltip: {
+        callbacks: {
+          title: () => null,
+        },
       },
     },
-    tooltip: {
-      callbacks: {
-        title: () => null,
+    scales: {
+      x: {
+        display: true,
+      },
+      y: {
+        ticks: {
+          callback: (value) => {
+            return Intl.NumberFormat("en-US", {
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(value);
+          },
+        },
       },
     },
-  },
-  scales: {
-    x: {
-      display: false,
+    elements: {
+      point: {
+        borderWidth: 1,
+        radius: 4,
+        hoverRadius: 6,
+      },
     },
-    y: {
-      beginAtZero: true,
-    },
-  },
-  elements: {
-    point: {
-      borderWidth: 1,
-      radius: 4,
-      hoverRadius: 6,
-    },
-  },
+  };
 };
 
-const labels = Array.from({ length: 24 }, (v, k) => k + 1);
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Followers",
-      data: labels.map(() => faker.datatype.number({ min: 500, max: 1000 })),
-      borderColor: "#87BF10",
-      backgroundColor: "rgba(135,191,16,0.2)",
-      pointBackgroundColor: "#87BF10",
-      tension: 0.4,
-      fill: "origin",
-    },
-  ],
+const getData = (dataset, label_set) => {
+  const labels = Array.from({ length: dataset[0].length }, (v, k) => k + 1);
+  const colors = [
+    ["#87BF10", "rgba(135,191,16,0.2)", "#87BF10"],
+    ["#6A70FF", "rgba(106,112,255,0.2)", "#6A70FF"],
+    ["#F476EF", "rgba(244,118,239,0.2)", "#F476EF"],
+  ];
+  return {
+    labels,
+    datasets: dataset.map((data, idx) => {
+      return {
+        label: label_set[idx],
+        data: data,
+        borderColor: colors[idx][0],
+        backgroundColor: colors[idx][1],
+        pointBackgroundColor: colors[idx][2],
+        tension: 0.4,
+        fill: "origin",
+      };
+    }),
+  };
 };
 
 export default function TrendCard(props) {
@@ -104,10 +119,14 @@ export default function TrendCard(props) {
       <CardContent>
         <div
           style={{
-            height: "35vh",
+            height: "40vh",
           }}
         >
-          <Line options={options} data={data} type={"line"} />
+          <Line
+            options={getOptions(props.title)}
+            data={getData(props.data, props.label_set)}
+            type={"line"}
+          />
         </div>
       </CardContent>
     </Card>

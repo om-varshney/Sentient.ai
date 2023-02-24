@@ -1,17 +1,19 @@
 import snscrape.modules.twitter as snt
 from emotion import get_emotion_polarity
 from messenger import write_msg
+import intelligence
+import datetime
 
 
 class HandleTweetsCollector:
     def __init__(
             self,
             handle: str,
-            min_replies: int = None,
-            min_faves: int = None,
-            min_retweets: int = None,
-            since: str = None,
-            until: str = None,
+            min_replies: int = 0,
+            min_faves: int = 0,
+            min_retweets: int = 0,
+            since: str = "2015-01-01",
+            until: str = str(datetime.date.today()),
     ):
         self.handle = handle
         self.min_replies = min_replies
@@ -22,7 +24,6 @@ class HandleTweetsCollector:
         self.status = "Handle Tweet collector Initialized"
         self.limit = 500
         self.collected = 0
-        self.tweets = []
         write_msg(self.status)
 
     def build_query(self):
@@ -32,12 +33,13 @@ class HandleTweetsCollector:
 
     def collect_tweets(self):
         query = self.build_query()
+        tweets = []
         for tweet in snt.TwitterSearchScraper(query).get_items():
             if self.collected == self.limit:
                 self.status = "Handle Tweets Extracted"
                 write_msg(self.status)
                 break
-            self.tweets.append([
+            tweets.append([
                 tweet.user.username,
                 tweet.user.followersCount,
                 tweet.user.friendsCount,
@@ -50,6 +52,8 @@ class HandleTweetsCollector:
                 tweet.viewCount
             ])
             self.collected += 1
+            write_msg(f"Tweets Collected: {self.collected}")
+        return tweets
 
 
 class CommentsTweetsCollector:

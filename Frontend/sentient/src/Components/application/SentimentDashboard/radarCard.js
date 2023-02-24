@@ -1,7 +1,5 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { CardHeader } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import {
   Chart as ChartJS,
@@ -12,8 +10,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar, Radar } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
+import { Radar } from "react-chartjs-2";
+import { colors } from "../../../utils/colors";
 
 ChartJS.register(
   RadialLinearScale,
@@ -45,83 +43,78 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Multi Database Radar Chart",
-      font: {
-        size: 18,
-        family: "Roboto",
+const getOptions = (title) => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 18,
+          family: "Roboto",
+        },
       },
     },
-  },
-  scales: {
-    r: {
-      ticks: {
-        // https://www.chartjs.org/docs/latest/axes/radial/#ticks
-        backdropColor: "transparent", // https://www.chartjs.org/docs/latest/axes/_common_ticks.html
+    scales: {
+      r: {
+        ticks: {
+          // https://www.chartjs.org/docs/latest/axes/radial/#ticks
+          backdropColor: "transparent", // https://www.chartjs.org/docs/latest/axes/_common_ticks.html
+          callback: (value) => {
+            return Intl.NumberFormat("en-US", {
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(value);
+          },
+        },
       },
     },
-  },
-  elements: {
-    point: {
-      borderWidth: 1,
-      radius: 4,
-      hoverRadius: 6,
+    elements: {
+      point: {
+        borderWidth: 1,
+        radius: 4,
+        hoverRadius: 6,
+      },
     },
-  },
+  };
 };
 
-const labels = ["Happy", "Angry", "Surprise", "Sad", "Fear"];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Positive",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: "#F476EF",
-      backgroundColor: "rgba(244,118,239,0.2)",
-      pointBackgroundColor: "#F476EF",
-      tension: 0.1,
-    },
-    {
-      label: "Negative",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: "#6A70FF",
-      backgroundColor: "rgba(106,112,255,0.2)",
-      pointBackgroundColor: "#6A70FF",
-      tension: 0.1,
-    },
-    {
-      label: "Neutral",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: "#87BF10",
-      backgroundColor: "rgba(135,191,16,0.2)",
-      pointBackgroundColor: "#87BF10",
-      tension: 0.1,
-    },
-  ],
+const getData = (dataset, labels, secondary_labels) => {
+  return {
+    labels,
+    datasets: dataset.map((data, idx) => {
+      return {
+        label: secondary_labels[idx],
+        data: data,
+        borderColor: colors[idx][0],
+        backgroundColor: colors[idx][1],
+        pointBackgroundColor: colors[idx][2],
+        tension: 0.1,
+      };
+    }),
+  };
 };
 
-export default function RadarCard() {
+export default function RadarCard(props) {
   const classes = useStyles();
   return (
     <Card className={classes.radarCard}>
-      {/*<CardHeader title="Radar Chart" className={classes.radarTitle} />*/}
       <CardContent>
         <div
           style={{
-            height: "80vh",
+            height: `${props.size}vh`,
           }}
         >
-          <Radar type={"radar"} data={data} options={options} />
+          <Radar
+            type={"radar"}
+            data={getData(props.data, props.labels, props.secondary_labels)}
+            options={getOptions(props.title)}
+          />
         </div>
       </CardContent>
     </Card>

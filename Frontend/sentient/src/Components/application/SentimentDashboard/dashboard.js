@@ -90,7 +90,7 @@ export const SentimentDashboard = () => {
         </Grid>
         <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
           <Grid item xs={8}>
-            <RadarCard />
+            {/*<RadarCard />*/}
           </Grid>
           <Grid item container xs={4} spacing={3} alignContent="flex-start">
             <Grid item xs={12}>
@@ -108,7 +108,7 @@ export const SentimentDashboard = () => {
             </Grid>
           </Grid>
           <Grid item xs={8}>
-            <RadarCard />
+            {/*<RadarCard />*/}
           </Grid>
         </Grid>
       </Grid>

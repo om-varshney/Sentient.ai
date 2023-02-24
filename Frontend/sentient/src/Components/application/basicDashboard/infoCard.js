@@ -33,19 +33,14 @@ export default function InfoCard(props) {
           alignItems="center"
         >
           <Typography variant="h4" style={{ color: "rgba(63,61,86,0.9)" }}>
-            {props.content}
+            {isNaN(props.content)
+              ? props.content
+              : Intl.NumberFormat("en-US", {
+                  notation: "compact",
+                  maximumFractionDigits: 1,
+                }).format(props.content)}
           </Typography>
-          {props.inference < 0 ? (
-            <ArrowDownwardIcon
-              style={{
-                fontSize: "32px",
-                padding: "4px",
-                borderRadius: "500px",
-                color: "rgba(255,105,97,1)",
-                backgroundColor: "rgba(255,105,97,0.2)",
-              }}
-            />
-          ) : (
+          {props.inference ? (
             <ArrowUpwardIcon
               style={{
                 fontSize: "32px",
@@ -53,6 +48,16 @@ export default function InfoCard(props) {
                 borderRadius: "500px",
                 color: "#87BF10",
                 backgroundColor: "rgba(135,191,16,0.2)",
+              }}
+            />
+          ) : (
+            <ArrowDownwardIcon
+              style={{
+                fontSize: "32px",
+                padding: "4px",
+                borderRadius: "500px",
+                color: "rgba(255,105,97,1)",
+                backgroundColor: "rgba(255,105,97,0.2)",
               }}
             />
           )}

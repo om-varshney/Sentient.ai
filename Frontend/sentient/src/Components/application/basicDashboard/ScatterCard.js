@@ -40,57 +40,86 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Scatter Plot Likes Vs Impressions",
-      font: {
-        size: 14,
-        family: "Roboto",
+export const getOptions = (title) => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 14,
+          family: "Roboto",
+        },
       },
     },
-  },
-  elements: {
-    point: {
-      borderWidth: 2,
-      radius: 8,
-      hoverRadius: 10,
+    elements: {
+      point: {
+        borderWidth: 2,
+        radius: 8,
+        hoverRadius: 10,
+      },
     },
-  },
+    scales: {
+      x: {
+        ticks: {
+          callback: (value) => {
+            return Intl.NumberFormat("en-US", {
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(value);
+          },
+        },
+      },
+      y: {
+        ticks: {
+          callback: (value) => {
+            return Intl.NumberFormat("en-US", {
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(value);
+          },
+        },
+      },
+    },
+  };
 };
 
-export const data = {
-  datasets: [
-    {
-      label: "Views/Likes",
-      data: Array.from({ length: 50 }, () => ({
-        x: faker.datatype.number({ min: 0, max: 5000 }),
-        y: faker.datatype.number({ min: 200, max: 500 }),
-      })),
-      borderColor: "rgba(244,118,239,1)",
-      backgroundColor: "rgba(244,118,239,0.5)",
-    },
-  ],
+const getData = (data_x, data_y, label) => {
+  return {
+    datasets: [
+      {
+        label: label,
+        data: Array.from({ length: data_x.length }, (element, index) => ({
+          x: data_x[index],
+          y: data_y[index],
+        })),
+        borderColor: "rgba(244,118,239,1)",
+        backgroundColor: "rgba(244,118,239,0.5)",
+      },
+    ],
+  };
 };
 
 export default function ScatterCard(props) {
   const classes = useStyles();
   return (
     <Card className={classes.chartCard} elevation={1}>
-      {/*<CardHeader title={props.title} className={classes.chartTitle} />*/}
       <CardContent>
         <div
           style={{
             height: "40vh",
           }}
         >
-          <Scatter options={options} data={data} />
+          <Scatter
+            options={getOptions(props.title)}
+            data={getData(props.data_x, props.data_y, props.label)}
+            type="Scatter"
+          />
         </div>
       </CardContent>
     </Card>

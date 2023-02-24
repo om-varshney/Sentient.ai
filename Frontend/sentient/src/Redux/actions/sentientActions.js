@@ -27,3 +27,17 @@ export const setQueryFiltersView = (viewState) => {
     payload: viewState,
   };
 };
+
+export const setTrendMessage = (message) => {
+  return {
+    type: ActionTypes.SET_TREND_MESSAGE,
+    payload: message,
+  };
+};
+
+export const setTrendData = (data) => {
+  return {
+    type: ActionTypes.SET_TREND_DATA,
+    payload: data,
+  };
+};

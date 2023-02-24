@@ -2,7 +2,11 @@ import { makeStyles } from "@mui/styles";
 import { Button, Grid } from "@mui/material";
 import logo from "../Assets/Logo.svg";
 import { useDispatch } from "react-redux";
-import { setView } from "../Redux/actions/sentientActions";
+import {
+  setTrendData,
+  setTrendMessage,
+  setView,
+} from "../Redux/actions/sentientActions";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -33,6 +37,8 @@ const setHome = (dispatch) => {
       sentimentDashboard: false,
     })
   );
+  dispatch(setTrendData({}));
+  dispatch(setTrendMessage(""));
 };
 
 export const NavBar = () => {

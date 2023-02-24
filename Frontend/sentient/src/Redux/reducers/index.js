@@ -4,6 +4,8 @@ import {
   notificationReducer,
   queryReducer,
   queryFilterViewReducer,
+  trendMessageReducer,
+  trendDataReducer,
 } from "./sentientReducers";
 
 export const reducers = combineReducers({
@@ -11,4 +13,6 @@ export const reducers = combineReducers({
   notification: notificationReducer,
   query: queryReducer,
   queryFilterView: queryFilterViewReducer,
+  trendMessage: trendMessageReducer,
+  trendData: trendDataReducer,
 });

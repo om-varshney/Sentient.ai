@@ -82,20 +82,21 @@ export const options = {
   },
 };
 
-const labels = Array.from({ length: 10 }, (v, k) => k + 1);
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      data: labels.map(() => faker.datatype.number({ min: 1000, max: 1000.8 })),
-      borderColor: "#6A70FF",
-      backgroundColor: "rgba(106,112,255,0.2)",
-      pointBackgroundColor: "#6A70FF",
-      tension: 0.6,
-      fill: "origin",
-    },
-  ],
+const getData = (data) => {
+  const labels = Array.from({ length: data.length }, (v, k) => k + 1);
+  return {
+    labels,
+    datasets: [
+      {
+        data: data,
+        borderColor: "#6A70FF",
+        backgroundColor: "rgba(106,112,255,0.2)",
+        pointBackgroundColor: "#6A70FF",
+        tension: 0.6,
+        fill: "origin",
+      },
+    ],
+  };
 };
 
 export default function InfoTrendCard(props) {
@@ -110,19 +111,12 @@ export default function InfoTrendCard(props) {
           alignItems="center"
         >
           <Typography variant="h3" style={{ color: "rgba(63,61,86,0.9)" }}>
-            {props.content}
+            {Intl.NumberFormat("en-US", {
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(props.content)}
           </Typography>
-          {props.inference < 0 ? (
-            <ArrowDownwardIcon
-              style={{
-                fontSize: "32px",
-                padding: "4px",
-                borderRadius: "500px",
-                color: "rgba(255,105,97,1)",
-                backgroundColor: "rgba(255,105,97,0.2)",
-              }}
-            />
-          ) : (
+          {props.inference ? (
             <ArrowUpwardIcon
               style={{
                 fontSize: "32px",
@@ -130,6 +124,16 @@ export default function InfoTrendCard(props) {
                 borderRadius: "500px",
                 color: "#87BF10",
                 backgroundColor: "rgba(135,191,16,0.2)",
+              }}
+            />
+          ) : (
+            <ArrowDownwardIcon
+              style={{
+                fontSize: "32px",
+                padding: "4px",
+                borderRadius: "500px",
+                color: "rgba(255,105,97,1)",
+                backgroundColor: "rgba(255,105,97,0.2)",
               }}
             />
           )}
@@ -140,7 +144,7 @@ export default function InfoTrendCard(props) {
             height: "10vh",
           }}
         >
-          <Line options={options} data={data} type={"line"} />
+          <Line options={options} data={getData(props.data)} type={"line"} />
         </div>
       </CardContent>
     </Card>

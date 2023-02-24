@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProfileCard() {
+export default function ProfileCard(props) {
   const classes = useStyles();
   return (
     <Card className={classes.profileCard} elevation={0}>
@@ -52,7 +52,7 @@ export default function ProfileCard() {
             className={classes.primaryButton}
             variant="contained"
           >
-            @elonmusk
+            {props.handle}
           </Button>
           <IconButton
             variant="contained"
