@@ -198,7 +198,13 @@ export const BasicDashboard = ({ handle, data, message }) => {
                         "Afternoon",
                         "Evening",
                         "Night",
-                      ][indexOfMax(data["time_trends"]["segments"]["views"])]
+                      ][
+                        indexOfMax([
+                          data["time_trends"]["segments"]["views"],
+                          data["time_trends"]["segments"]["likes"],
+                          data["time_trends"]["segments"]["retweets"],
+                        ])
+                      ]
                     }
                     inference={1}
                     message="Is the best time to tweet"

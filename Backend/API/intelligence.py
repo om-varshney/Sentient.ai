@@ -123,9 +123,9 @@ class TrendIntelligence:
         time_frame = self.df.groupby("Time").mean(numeric_only=True).loc[:, ["views", "likes", "retweets"]]
         time_frame.fillna(time_frame.mean(), inplace=True)
         return {
-            "views": time_frame["views"].values.tolist(),
-            "likes": time_frame["likes"].values.tolist(),
-            "retweets": time_frame["retweets"].values.tolist(),
+            "views": self.scale_vector(time_frame["views"].values.tolist()),
+            "likes": self.scale_vector(time_frame["likes"].values.tolist()),
+            "retweets": self.scale_vector(time_frame["retweets"].values.tolist()),
             "segments": {
                 "views": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["views"].values.mean(),
