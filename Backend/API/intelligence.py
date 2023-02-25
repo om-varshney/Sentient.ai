@@ -40,8 +40,7 @@ class TrendIntelligence:
             ]
         )
         self.dates = None
-        write_msg("Preprocessing Handle Tweets")
-        self.preprocess()
+        self.all_null = []
 
     @staticmethod
     def scale_vector(vec):
@@ -58,7 +57,9 @@ class TrendIntelligence:
         self.df.drop("date", inplace=True, axis=1)
         nan_ = self.df.columns[self.df.isna().any()].tolist()
         for i in nan_:
-            # TODO: Check this while loop.
+            if self.df.loc[:, i].isnull().all():
+                self.all_null.append(i)
+                continue
             while self.df.loc[:, i].isnull().sum() != 0:
                 self.df.loc[:, i].fillna(
                     np.random.normal(self.df.loc[:, i].mean(), self.df.loc[:, i].std()),
@@ -68,6 +69,8 @@ class TrendIntelligence:
         write_msg("Preprocessing Complete")
 
     def likes_trend(self):
+        if "likes" in self.all_null:
+            return False
         split = np.array_split(self.df["likes"].dropna(), 10)
         trend = [view.mean() for view in split[::-1]]
         return {
@@ -77,6 +80,8 @@ class TrendIntelligence:
         }
 
     def views_trend(self):
+        if "views" in self.all_null:
+            return False
         split = np.array_split(self.df["views"].dropna(), 10)
         trend = [view.mean() for view in split[::-1]]
         return {
@@ -86,6 +91,8 @@ class TrendIntelligence:
         }
 
     def re_tweets_trend(self):
+        if "retweets" in self.all_null:
+            return False
         split = np.array_split(self.df["retweets"].dropna(), 10)
         trend = [view.mean() for view in split[::-1]]
         return {
@@ -95,10 +102,14 @@ class TrendIntelligence:
         }
 
     def followers_trend(self):
+        if "followers" in self.all_null:
+            return False
         split = np.array_split(self.df["followers"].dropna(), 40)
         return [view.mean() for view in split]
 
     def followers_per_tweet(self):
+        if "followers" in self.all_null:
+            return False
         fpt = round((self.df["followers"].iloc[-1] - self.df["followers"].iloc[0]) / self.collector.collected, 1)
         return {
             "fpt": fpt,
@@ -106,6 +117,8 @@ class TrendIntelligence:
         }
 
     def likes_vs_views(self):
+        if "likes" in self.all_null or "views" in self.all_null:
+            return False
         split_x = np.array_split(self.df["views"].dropna(), 50)
         split_y = np.array_split(self.df["likes"].dropna(), 50)
         x = [view.mean() for view in split_x[::-1]]
@@ -118,6 +131,8 @@ class TrendIntelligence:
         }
 
     def retweets_vs_views(self):
+        if "retweets" in self.all_null or "views" in self.all_null:
+            return False
         split_x = np.array_split(self.df["views"].dropna(), 50)
         split_y = np.array_split(self.df["retweets"].dropna(), 50)
         x = [view.mean() for view in split_x[::-1]]
@@ -130,12 +145,13 @@ class TrendIntelligence:
         }
 
     def time_trends(self):
-        time_frame = self.df.groupby("Time").mean(numeric_only=True).loc[:, ["views", "likes", "retweets"]]
+        numeric_columns = [i for i in ["views", "likes", "retweets"] if i not in self.all_null]
+        time_frame = self.df.groupby("Time").mean(numeric_only=True).loc[:, numeric_columns]
         time_frame.fillna(time_frame.mean(), inplace=True)
         return {
-            "views": self.scale_vector(time_frame["views"].values.tolist()),
-            "likes": self.scale_vector(time_frame["likes"].values.tolist()),
-            "retweets": self.scale_vector(time_frame["retweets"].values.tolist()),
+            "views": self.scale_vector(time_frame["views"].values.tolist()) if "views" not in self.all_null else False,
+            "likes": self.scale_vector(time_frame["likes"].values.tolist()) if "likes" not in self.all_null else False,
+            "retweets": self.scale_vector(time_frame["retweets"].values.tolist()) if "retweets" not in self.all_null else False,
             "segments": {
                 "views": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["views"].values.mean(),
@@ -144,7 +160,7 @@ class TrendIntelligence:
                     time_frame.iloc[12: 16, :]["views"].values.mean(),
                     time_frame.iloc[16: 20, :]["views"].values.mean(),
                     time_frame.iloc[20:, :]["views"].values.mean(),
-                ]]),
+                ]]) if "views" not in self.all_null else False,
                 "likes": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["likes"].values.mean(),
                     time_frame.iloc[4: 8, :]["likes"].values.mean(),
@@ -152,7 +168,7 @@ class TrendIntelligence:
                     time_frame.iloc[12: 16, :]["likes"].values.mean(),
                     time_frame.iloc[16: 20, :]["likes"].values.mean(),
                     time_frame.iloc[20:, :]["likes"].values.mean(),
-                ]]),
+                ]]) if "likes" not in self.all_null else False,
                 "retweets": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["retweets"].values.mean(),
                     time_frame.iloc[4: 8, :]["retweets"].values.mean(),
@@ -160,11 +176,13 @@ class TrendIntelligence:
                     time_frame.iloc[12: 16, :]["retweets"].values.mean(),
                     time_frame.iloc[16: 20, :]["retweets"].values.mean(),
                     time_frame.iloc[20:, :]["retweets"].values.mean(),
-                ]]),
-            }
+                ]]) if "retweets" not in self.all_null else False,
+            },
+            "labels": [i for i in ["views", "likes", "retweets"] if i not in self.all_null]
         }
 
     def tweet_span(self):
+        # TODO: Fails if there are not enough values.
         span = self.dates.iloc[0] - self.dates.iloc[-1]
         split = np.array_split(self.dates.dropna(), 20)
         trend = [len(value) / ((value.iloc[0] - value.iloc[-1]).days or 1) for value in split[::-1]]
@@ -176,7 +194,14 @@ class TrendIntelligence:
         }
 
     def analysis_json(self):
+        if self.collector.collected < 200:
+            return {
+                "analysis": False,
+            }
+        write_msg("Preprocessing Handle Tweets")
+        self.preprocess()
         return {
+            "analysis": True,
             "span": self.tweet_span(),
             "likes_trend": self.likes_trend(),
             "views_trend": self.views_trend(),

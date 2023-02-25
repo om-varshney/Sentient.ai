@@ -1,9 +1,9 @@
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
-import leaves_1 from "../../../Assets/Leaves_1.png";
-import leaves_2 from "../../../Assets/Leaves_2.png";
-import logo from "../../../Assets/Logo.svg";
-import meditate from "../../../Assets/Meditate.png";
+import leaves_1 from "../../Assets/Leaves_1.png";
+import leaves_2 from "../../Assets/Leaves_2.png";
+import logo from "../../Assets/Logo.svg";
+import meditate from "../../Assets/Meditate.png";
 import Typography from "@mui/material/Typography";
 
 const useStyles = makeStyles((theme) => ({

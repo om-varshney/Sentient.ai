@@ -59,9 +59,9 @@ class CommentsTweetsCollector:
     def __init__(
             self,
             handle: str,
-            min_faves: int = None,
-            since: str = None,
-            until: str = None,
+            min_faves: int = 100,
+            since: str = "2015-01-01",
+            until: str = str(datetime.date.today()),
     ):
         self.handle = handle
         self.min_faves = min_faves

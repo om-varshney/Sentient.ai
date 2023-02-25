@@ -10,8 +10,9 @@ import ScatterCard from "./ScatterCard";
 import TrendCard from "./trendCard";
 import InfoCard from "./infoCard";
 import RadarCard from "../SentimentDashboard/radarCard";
-import { PreLoad } from "./loadingScreen";
+import { PreLoad } from "../loadingScreen";
 import { indexOfMax, isEmpty } from "../../../utils/utils";
+import { InvalidAccount } from "../invalidAccountScreen";
 
 const useStyles = makeStyles((theme) => ({
   dashboard: {
@@ -54,7 +55,7 @@ export const BasicDashboard = ({ handle, data, message }) => {
     <>
       {isEmpty(data) ? (
         <PreLoad message={message} />
-      ) : (
+      ) : data["analysis"] ? (
         <Grid container className={classes.dashboard}>
           <img src={leaves_1} alt="" className={classes.backgroundEffect1} />
           <img src={leaves_2} alt="" className={classes.backgroundEffect2} />
@@ -87,25 +88,59 @@ export const BasicDashboard = ({ handle, data, message }) => {
             >
               <Grid item xs={4}>
                 <InfoTrendCard
-                  title="Avg. Views"
-                  content={data["views_trend"]["mean"]}
-                  inference={data["views_trend"]["inference"]}
+                  title={
+                    data["views_trend"]
+                      ? "Avg. Views"
+                      : "Views Data not Available"
+                  }
+                  content={
+                    data["views_trend"] ? data["views_trend"]["mean"] : "404"
+                  }
+                  inference={
+                    data["views_trend"]
+                      ? data["views_trend"]["inference"]
+                      : null
+                  }
                   data={data["views_trend"]["trend"]}
                 />
               </Grid>
               <Grid item xs={4}>
                 <InfoTrendCard
-                  title="Avg. Likes"
-                  content={data["likes_trend"]["mean"]}
-                  inference={data["likes_trend"]["inference"]}
+                  title={
+                    data["likes_trend"]
+                      ? "Avg. Likes"
+                      : "Data for this field not found"
+                  }
+                  content={
+                    data["likes_trend"]
+                      ? data["likes_trend"]["mean"]
+                      : "Unavailable"
+                  }
+                  inference={
+                    data["likes_trend"]
+                      ? data["likes_trend"]["inference"]
+                      : null
+                  }
                   data={data["likes_trend"]["trend"]}
                 />
               </Grid>
               <Grid item xs={4}>
                 <InfoTrendCard
-                  title="Avg. Retweets"
-                  content={data["re_tweets_trend"]["mean"]}
-                  inference={data["re_tweets_trend"]["inference"]}
+                  title={
+                    data["re_tweets_trend"]
+                      ? "Avg. Retweets"
+                      : "Data for this field not found"
+                  }
+                  content={
+                    data["re_tweets_trend"]
+                      ? data["re_tweets_trend"]["mean"]
+                      : "Unavailable"
+                  }
+                  inference={
+                    data["re_tweets_trend"]
+                      ? data["re_tweets_trend"]["inference"]
+                      : null
+                  }
                   data={data["re_tweets_trend"]["trend"]}
                 />
               </Grid>
@@ -116,7 +151,7 @@ export const BasicDashboard = ({ handle, data, message }) => {
                   data={[data["span"]["trend"]]}
                   label_set={["Tweets"]}
                   title={`Tweeting Trend over Time (${data["span"]["span"]} days)`}
-                  x_label={"Time"}
+                  x_label={"Time (Measured in Tweet Groups)"}
                   y_label={"Number of Tweets"}
                 />
               </Grid>
@@ -128,125 +163,167 @@ export const BasicDashboard = ({ handle, data, message }) => {
                     inference={data["span"]["inference"]}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <InfoCard
-                    content={data["fpt"]["fpt"]}
-                    inference={data["fpt"]["inference"]}
-                    message="Followers Per Tweet"
-                  />
-                </Grid>
               </Grid>
             </Grid>
-            {/*<Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>*/}
-            {/*  <Grid item xs={10}>*/}
-            {/*    <TrendCard*/}
-            {/*      data={[data["followers_trend"]]}*/}
-            {/*      label_set={["Followers"]}*/}
-            {/*      title={"Followers Trend over Time"}*/}
-            {/*      x_label={"Time measured in Tweets"}*/}
-            {/*      y_label={"Followers"}*/}
-            {/*    />*/}
-            {/*  </Grid>*/}
-            {/*</Grid>*/}
-            <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
-              <Grid item container xs={2} spacing={3} alignContent="flex-start">
-                <Grid item xs={12}>
-                  <InfoCard
-                    content={data["likes_vs_views"]["likes per view"]}
-                    inference={data["likes_vs_views"]["inference"]}
-                    message="Likes per thousand views"
-                  />
+            {data["likes_vs_views"] || data["retweets_vs_views"] ? (
+              <Grid
+                item
+                container
+                xs={12}
+                spacing={3}
+                style={{ paddingLeft: 0 }}
+              >
+                <Grid
+                  item
+                  container
+                  xs={2}
+                  spacing={3}
+                  alignContent="flex-start"
+                >
+                  <Grid item xs={12}>
+                    <InfoCard
+                      content={
+                        data["likes_vs_views"]
+                          ? data["likes_vs_views"]["likes per view"]
+                          : "--"
+                      }
+                      inference={
+                        data["likes_vs_views"]
+                          ? data["likes_vs_views"]["inference"]
+                          : null
+                      }
+                      message={
+                        data["likes_vs_views"]
+                          ? "Likes per thousand views"
+                          : "Data Unavailable"
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <InfoCard
+                      content={
+                        data["retweets_vs_views"]
+                          ? data["retweets_vs_views"]["retweets per view"]
+                          : "--"
+                      }
+                      inference={
+                        data["retweets_vs_views"]
+                          ? data["retweets_vs_views"]["inference"]
+                          : null
+                      }
+                      message={
+                        data["retweets_vs_views"]
+                          ? "Retweets per thousand views"
+                          : "Data Unavailable"
+                      }
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <InfoCard
-                    content={data["retweets_vs_views"]["retweets per view"]}
-                    inference={data["retweets_vs_views"]["inference"]}
-                    message="Retweets per thousand views"
-                  />
+                <Grid item xs={5}>
+                  {data["likes_vs_views"] ? (
+                    <ScatterCard
+                      title="Likes Vs Views"
+                      label="Views | Likes"
+                      data_x={data["likes_vs_views"]["x"]}
+                      data_y={data["likes_vs_views"]["y"]}
+                      x_label={"Views"}
+                      y_label={"Likes"}
+                    />
+                  ) : null}
+                </Grid>
+                <Grid item xs={5}>
+                  {data["retweets_vs_views"] ? (
+                    <ScatterCard
+                      title="Retweets Vs Views"
+                      label="Views | Retweets"
+                      data_x={data["retweets_vs_views"]["x"]}
+                      data_y={data["retweets_vs_views"]["y"]}
+                      x_label={"Views"}
+                      y_label={"Retweets"}
+                    />
+                  ) : null}
                 </Grid>
               </Grid>
-              <Grid item xs={5}>
-                <ScatterCard
-                  title="Likes Vs Views"
-                  label="Views | Likes"
-                  data_x={data["likes_vs_views"]["x"]}
-                  data_y={data["likes_vs_views"]["y"]}
-                  x_label={"Views"}
-                  y_label={"Likes"}
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <ScatterCard
-                  title="Retweets Vs Views"
-                  label="Views | Retweets"
-                  data_x={data["retweets_vs_views"]["x"]}
-                  data_y={data["retweets_vs_views"]["y"]}
-                  x_label={"Views"}
-                  y_label={"Retweets"}
-                />
-              </Grid>
-            </Grid>
-            <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
-              <Grid item xs={6}>
-                <RadarCard
-                  labels={[
-                    "Midnight (00 - 04 hours)",
-                    "Early Morning (04 - 08 hours)",
-                    "Morning (08 - 12 hours)",
-                    "Afternoon (12 - 16 hours)",
-                    "Evening (16 - 20 hours)",
-                    "Night (20 - 00 hours)",
-                  ]}
-                  secondary_labels={["views", "likes", "retweets"]}
-                  data={[
-                    data["time_trends"]["segments"]["views"],
-                    data["time_trends"]["segments"]["likes"],
-                    data["time_trends"]["segments"]["retweets"],
-                  ]}
-                  size={60}
-                  title={"Aggregate Time Trend Analysis"}
-                />
-              </Grid>
-              <Grid item container xs={6} spacing={3} alignContent="flex-start">
-                <Grid item xs={12}>
-                  <InfoCard
-                    content={
-                      [
-                        "Midnight",
-                        "Early Morning",
-                        "Morning",
-                        "Afternoon",
-                        "Evening",
-                        "Night",
-                      ][
-                        indexOfMax([
-                          data["time_trends"]["segments"]["views"],
-                          data["time_trends"]["segments"]["likes"],
-                          data["time_trends"]["segments"]["retweets"],
-                        ])
-                      ]
-                    }
-                    inference={1}
-                    message="Is the best time to tweet"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TrendCard
-                    data={[
-                      data["time_trends"]["views"],
-                      data["time_trends"]["likes"],
-                      data["time_trends"]["retweets"],
+            ) : null}
+            {data["time_trends"]["views"] ||
+            data["time_trends"]["likes"] ||
+            data["time_trends"]["retweets"] ? (
+              <Grid
+                item
+                container
+                xs={12}
+                spacing={3}
+                style={{ paddingLeft: 0 }}
+              >
+                <Grid item xs={6}>
+                  <RadarCard
+                    labels={[
+                      "Midnight (00 - 04 hours)",
+                      "Early Morning (04 - 08 hours)",
+                      "Morning (08 - 12 hours)",
+                      "Afternoon (12 - 16 hours)",
+                      "Evening (16 - 20 hours)",
+                      "Night (20 - 00 hours)",
                     ]}
-                    label_set={["Views", "Likes", "Retweets"]}
-                    title={"Hourly Trend Analysis"}
-                    x_label={"Time in Hours"}
-                    y_label={"Views | Likes | Retweets"}
+                    secondary_labels={data["time_trends"]["labels"]}
+                    data={[
+                      data["time_trends"]["segments"]["views"],
+                      data["time_trends"]["segments"]["likes"],
+                      data["time_trends"]["segments"]["retweets"],
+                    ].filter(Boolean)}
+                    size={60}
+                    title={"Aggregate Time Trend Analysis"}
                   />
                 </Grid>
+                <Grid
+                  item
+                  container
+                  xs={6}
+                  spacing={3}
+                  alignContent="flex-start"
+                >
+                  <Grid item xs={12}>
+                    <InfoCard
+                      content={
+                        [
+                          "Midnight",
+                          "Early Morning",
+                          "Morning",
+                          "Afternoon",
+                          "Evening",
+                          "Night",
+                        ][
+                          indexOfMax([
+                            data["time_trends"]["segments"]["views"],
+                            data["time_trends"]["segments"]["likes"],
+                            data["time_trends"]["segments"]["retweets"],
+                          ])
+                        ]
+                      }
+                      inference={1}
+                      message="Is the best time to tweet"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TrendCard
+                      data={[
+                        data["time_trends"]["views"],
+                        data["time_trends"]["likes"],
+                        data["time_trends"]["retweets"],
+                      ].filter(Boolean)}
+                      label_set={data["time_trends"]["labels"]}
+                      title={"Hourly Trend Analysis"}
+                      x_label={"Time in Hours"}
+                      y_label={"Views | Likes | Retweets"}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
+            ) : null}
           </Grid>
         </Grid>
+      ) : (
+        <InvalidAccount handle={handle} />
       )}
     </>
   );

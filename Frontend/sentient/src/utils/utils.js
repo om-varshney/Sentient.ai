@@ -9,10 +9,19 @@ export function indexOfMax(arr) {
   if (arr.length === 0) {
     return -1;
   }
-  let max = [arr[0][0], arr[1][0], arr[2][0]].reduce((a, b) => a + b, 0) / 3;
+  arr = arr.filter(Boolean);
+  let max = 0;
   let maxIndex = 0;
+  for (let i = 0; i < arr.length; i++) {
+    max += arr[i][0];
+  }
+  max /= arr.length;
   for (let i = 1; i < arr[0].length; i++) {
-    let avg = [arr[0][i], arr[1][i], arr[2][i]].reduce((a, b) => a + b, 0) / 3;
+    let avg = 0;
+    for (let j = 0; j < arr.length; j++) {
+      avg += arr[j][i];
+    }
+    avg /= arr.length;
     if (avg > max) {
       maxIndex = i;
       max = avg;

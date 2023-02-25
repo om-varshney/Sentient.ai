@@ -109,12 +109,14 @@ export default function InfoTrendCard(props) {
           alignItems="center"
         >
           <Typography variant="h3" style={{ color: "rgba(63,61,86,0.9)" }}>
-            {Intl.NumberFormat("en-US", {
-              notation: "compact",
-              maximumFractionDigits: 1,
-            }).format(props.content)}
+            {isNaN(props.content)
+              ? props.content
+              : Intl.NumberFormat("en-US", {
+                  notation: "compact",
+                  maximumFractionDigits: 1,
+                }).format(props.content)}
           </Typography>
-          {props.inference ? (
+          {props.inference === null ? null : props.inference ? (
             <ArrowUpwardIcon
               style={{
                 fontSize: "32px",
@@ -137,13 +139,15 @@ export default function InfoTrendCard(props) {
           )}
         </Stack>
         <Typography>{props.title}</Typography>
-        <div
-          style={{
-            height: "10vh",
-          }}
-        >
-          <Line options={options} data={getData(props.data)} type={"line"} />
-        </div>
+        {props.data ? (
+          <div
+            style={{
+              height: "10vh",
+            }}
+          >
+            <Line options={options} data={getData(props.data)} type={"line"} />
+          </div>
+        ) : null}
       </CardContent>
     </Card>
   );

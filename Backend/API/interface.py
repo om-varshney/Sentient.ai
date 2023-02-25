@@ -10,5 +10,7 @@ def get_trend_data(handle):
 
 
 if __name__ == "__main__":
-    print(get_trend_data("@elonmusk"))
-    print(get_trend_data("@BillGates"))
+    # print(get_trend_data("@elonmusk"))
+    # print(get_trend_data("@BillGates"))
+    # print(get_trend_data("@Harry_Styles"))
+    print(get_trend_data("@introvertmemes"))
