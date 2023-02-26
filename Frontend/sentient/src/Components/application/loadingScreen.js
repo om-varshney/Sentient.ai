@@ -73,7 +73,10 @@ export const PreLoad = (props) => {
           Sit back and relax while Sentient prepares your Analytics Report.
         </Typography>
         <Box sx={{ width: "50%" }}>
-          <Progress variant={"determinate"} value={props.progress} />
+          <Progress
+            variant={props.progress > 0 ? "determinate" : "indeterminate"}
+            value={props.progress}
+          />
         </Box>
         <Typography className={classes.mainHeading}>{props.content}</Typography>
       </Stack>

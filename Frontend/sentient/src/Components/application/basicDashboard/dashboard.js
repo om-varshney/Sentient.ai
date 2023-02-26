@@ -54,7 +54,7 @@ export const BasicDashboard = ({ handle, data, message }) => {
   return (
     <>
       {isEmpty(data) ? (
-        <PreLoad message={message} />
+        <PreLoad content={message.msg} progress={message.value} />
       ) : data["analysis"] ? (
         <Grid container className={classes.dashboard}>
           <img src={leaves_1} alt="" className={classes.backgroundEffect1} />

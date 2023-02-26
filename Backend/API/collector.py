@@ -1,3 +1,4 @@
+import time
 import snscrape.modules.twitter as snt
 from messenger import write_msg
 import datetime
@@ -26,6 +27,7 @@ class HandleTweetsCollector:
         self.limit = 500
         self.collected = 0
         write_msg(self.status, "trend", progress=0)
+        time.sleep(2)
 
     def build_query(self):
         return f"(from:{self.handle}) -filter:replies " \
@@ -101,3 +103,6 @@ class CommentsTweetsCollector:
             write_msg(f"Collecting Comments and Replies for {self.handle}", "sentiment",
                       progress=round(self.collected / self.limit * 100, 2))
         return tweets
+
+
+# TODO: Add language Filter. Consider tweets only in english language.
