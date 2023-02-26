@@ -53,7 +53,7 @@ class HandleTweetsCollector:
                 tweet.viewCount
             ])
             self.collected += 1
-            write_msg(f"Tweets Collected: {self.collected / self.limit}%", "trend")
+            write_msg(f"Tweets Collected: {round(self.collected / self.limit * 100, 2)}%", "trend")
         return tweets
 
 
@@ -70,7 +70,7 @@ class CommentsTweetsCollector:
         self.since = since
         self.until = until
         self.status = "Comment Tweets Collector Initialized"
-        self.limit = 1000
+        self.limit = 500
         self.collected = 0
         write_msg(self.status, "sentiment")
 
@@ -97,5 +97,5 @@ class CommentsTweetsCollector:
                 tweet.viewCount,
             ])
             self.collected += 1
-            write_msg(f"Comments Collected: {self.collected / self.limit}%", "sentiment")
+            write_msg(f"Comments Collected: {round(self.collected / self.limit * 100, 2)}%", "sentiment")
         return tweets

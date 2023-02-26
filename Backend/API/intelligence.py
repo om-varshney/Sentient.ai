@@ -1,4 +1,5 @@
 import numpy as np
+import pandas
 import pandas as pd
 from messenger import write_msg
 import collector
@@ -221,7 +222,7 @@ class SentimentIntelligence:
     def __init__(
             self,
             handle: str,
-            min_faves: int = 100,
+            min_faves: int = 20,
             since: str = "2015-01-01",
             until: str = str(datetime.date.today()),
     ):
@@ -303,17 +304,15 @@ class SentimentIntelligence:
     def _add_sentiment(self):
         write_msg("Performing Sentiment Analysis", "sentiment")
         sent = SentimentIntensityAnalyzer()
-        polarity = pd.DataFrame(
-            [
-                sent.polarity_scores(content) for content in self.df["content"].values
-            ]
-        )
-        emotion = pd.DataFrame(
-            [
-                te.get_emotion(content) for content in self.df["content"].values
-            ]
-        )
-        self.df = pd.concat([self.df, polarity, emotion], axis=1)
+        polarity, emotion, count, total = [], [], 0, self.collector.collected
+        for content in self.df["content"].values:
+            polarity.append(sent.polarity_scores(content))
+            emotion.append(te.get_emotion(content))
+            write_msg(f"Analysing Tweet Polarity and Emotion: {round(count / total * 100, 2)}%", "sentiment")
+            count += 1
+        pdf = pandas.DataFrame(polarity)
+        edf = pandas.DataFrame(emotion)
+        self.df = pd.concat([self.df, pdf, edf], axis=1)
         write_msg("Sentiment Analysis Complete", "sentiment")
 
     def positive_trend(self):
@@ -349,6 +348,39 @@ class SentimentIntelligence:
             "inference": bool(trend[-1] > sum(trend[:-1]) / 9)
         }
 
+    def polarity_distribution(self):
+        polarity = [
+            "positive",
+            "negative",
+        ]
+        trend = [round(self.df[pol[:3]].mean(), 2) for pol in polarity]
+        index_max = max(range(2), key=trend.__getitem__)
+        return {
+            "labels": polarity,
+            "trend": trend,
+            "dominant_polarity": polarity[index_max],
+            "percentage": round(trend[index_max] / sum(trend) * 100),
+            "inference": int(index_max) != 1,
+        }
+
+    def emotion_distribution(self):
+        emotions = [
+            "Happy",
+            "Surprise",
+            "Sad",
+            "Angry",
+            "Fear"
+        ]
+        trend = [round(self.df[emotion].mean(), 2) for emotion in emotions]
+        index_max = max(range(5), key=trend.__getitem__)
+        return {
+            "labels": emotions,
+            "trend": trend,
+            "dominant_emotion": emotions[index_max],
+            "percentage": round(trend[index_max] / sum(trend) * 100),
+            "inference": int(index_max) < 2
+        }
+
     def analysis_json(self):
         if self.collector.collected < 200:
             return {
@@ -361,4 +393,6 @@ class SentimentIntelligence:
             "positive_trend": self.positive_trend(),
             "negative_trend": self.negative_trend(),
             "neutral_trend": self.neutral_trend(),
+            "polarity_distribution": self.polarity_distribution(),
+            "emotion_distribution": self.emotion_distribution(),
         }

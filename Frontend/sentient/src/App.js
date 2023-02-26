@@ -14,6 +14,8 @@ import {
   setTrendData,
   setTrendMessage,
 } from "./Redux/actions/sentientActions";
+import { isEmpty } from "./utils/utils";
+import { PreLoad } from "./Components/application/loadingScreen";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -75,13 +77,15 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         dispatch(setTrendData(data));
-        dispatch(
-          setNotificationContent({
-            type: "success",
-            msg: "Analytics Dashboard is Ready!",
-            id: Math.random(),
-          })
-        );
+        if (!isEmpty(data) && data["analysis"]) {
+          dispatch(
+            setNotificationContent({
+              type: "success",
+              msg: "Analytics Dashboard is Ready!",
+              id: Math.random(),
+            })
+          );
+        }
         clearInterval(trendInterval);
       })
       .catch((error) => console.log(error));
@@ -96,13 +100,15 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         dispatch(setSentimentData(data));
-        dispatch(
-          setNotificationContent({
-            type: "success",
-            msg: "Sentiment Dashboard is Ready!",
-            id: Math.random(),
-          })
-        );
+        if (!isEmpty(data) && data["analysis"]) {
+          dispatch(
+            setNotificationContent({
+              type: "success",
+              msg: "Sentiment Dashboard is Ready!",
+              id: Math.random(),
+            })
+          );
+        }
         clearInterval(sentimentInterval);
       })
       .catch((error) => console.log(error));

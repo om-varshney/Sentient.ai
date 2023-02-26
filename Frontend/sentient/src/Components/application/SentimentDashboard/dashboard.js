@@ -3,9 +3,6 @@ import { makeStyles } from "@mui/styles";
 import leaves_1 from "../../../Assets/Leaves_1.png";
 import leaves_2 from "../../../Assets/Leaves_2.png";
 import { NavBar } from "../../navbar";
-import { Button, Stack, Typography } from "@mui/material";
-import { useState } from "react";
-import SideNav from "../sideNav";
 import NewQueryButton from "../../fab";
 import DoughnutCard from "./doughnutCard";
 import ChartCard from "./chartCard";
@@ -14,6 +11,8 @@ import ProfileCard from "../basicDashboard/profileCard";
 import { PreLoad } from "../loadingScreen";
 import { isEmpty } from "../../../utils/utils";
 import InfoTrendCard from "../basicDashboard/infoTrendCard";
+import InfoCard from "../basicDashboard/infoCard";
+import { InvalidAccount } from "../invalidAccountScreen";
 
 const useStyles = makeStyles((theme) => ({
   dashboard: {
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   dashboardContainer: {
     backgroundColor: "#eef2f6",
     width: "100vw",
-    minHeight: "90vh",
+    // minHeight: "90vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -150,31 +149,61 @@ export const SentimentDashboard = ({ handle, data, message }) => {
               </Grid>
             </Grid>
             <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
-              <Grid item xs={8}>
-                {/*<RadarCard />*/}
+              <Grid item xs={6}>
+                <DoughnutCard
+                  data={data["emotion_distribution"]["trend"]}
+                  labels={data["emotion_distribution"]["labels"]}
+                  secondaryLabel={"Emotion"}
+                  title={"Emotion distribution in comments"}
+                />
               </Grid>
-              <Grid item container xs={4} spacing={3} alignContent="flex-start">
+              <Grid item xs={4}>
+                <DoughnutCard
+                  data={data["polarity_distribution"]["trend"]}
+                  labels={data["polarity_distribution"]["labels"]}
+                  secondaryLabel={"Polarity"}
+                  title={"Polarity distribution in comments"}
+                />
+              </Grid>
+
+              <Grid item container xs={2} spacing={3} alignContent="flex-start">
                 <Grid item xs={12}>
-                  <DoughnutCard />
+                  <InfoCard
+                    content={
+                      data["polarity_distribution"]
+                        ? data["polarity_distribution"]["percentage"] + "%"
+                        : "--"
+                    }
+                    inference={data["polarity_distribution"]["inference"]}
+                    message={
+                      data["polarity_distribution"]
+                        ? `People show ${data["polarity_distribution"]["dominant_polarity"]} polarity to your tweets`
+                        : "Data Unavailable"
+                    }
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <DoughnutCard />
+                  <InfoCard
+                    content={
+                      data["emotion_distribution"]
+                        ? data["emotion_distribution"]["percentage"] + "%"
+                        : "--"
+                    }
+                    inference={data["emotion_distribution"]["inference"]}
+                    message={
+                      data["emotion_distribution"]
+                        ? `People show ${data["emotion_distribution"]["dominant_emotion"]} emotion to your tweets`
+                        : "Data Unavailable"
+                    }
+                  />
                 </Grid>
-              </Grid>
-            </Grid>
-            <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
-              <Grid item container xs={4} spacing={3} alignContent="flex-start">
-                <Grid item xs={12}>
-                  <ChartCard />
-                </Grid>
-              </Grid>
-              <Grid item xs={8}>
-                {/*<RadarCard />*/}
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      ) : null}
+      ) : (
+        <InvalidAccount handle={handle} />
+      )}
     </>
   );
 };

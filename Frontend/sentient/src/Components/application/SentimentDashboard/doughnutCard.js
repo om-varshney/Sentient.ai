@@ -29,55 +29,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Emotion Pie Chart",
-      font: {
-        size: 14,
-        family: "Roboto",
+const getOptions = (title) => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 14,
+          family: "Roboto",
+        },
       },
     },
-  },
-};
-const labels = ["Happy", "Angry", "Surprise", "Sad", "Fear"];
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Percentage",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: [
-        "rgba(244,118,239,0.5)",
-        "rgba(106,112,255,0.5)",
-        "rgba(135,191,16,0.5)",
-        "rgba(137,99,99,0.5)",
-        "rgba(255,105,97,0.5)",
-      ],
-      borderColor: ["#F476EF", "#6A70FF", "#87BF10", "#896363", "#ff6961"],
-      borderWidth: 1,
-    },
-  ],
+  };
 };
 
-export default function DoughnutCard() {
+const getData = (data, labels, secondaryLabel) => {
+  return {
+    labels,
+    datasets: [
+      {
+        label: secondaryLabel,
+        data: data,
+        backgroundColor: [
+          "rgba(244,118,239,0.5)",
+          "rgba(106,112,255,0.5)",
+          "rgba(135,191,16,0.5)",
+          "rgba(137,99,99,0.5)",
+          "rgba(255,105,97,0.5)",
+        ],
+        borderColor: ["#F476EF", "#6A70FF", "#87BF10", "#896363", "#ff6961"],
+        borderWidth: 3,
+      },
+    ],
+  };
+};
+
+export default function DoughnutCard(props) {
   const classes = useStyles();
   return (
     <Card className={classes.doughnutCard}>
-      {/*<CardHeader title="Info" className={classes.doughnutTitle} />*/}
       <CardContent>
         <div
           style={{
-            height: "35vh",
+            height: `35vh`,
           }}
         >
-          <Doughnut data={data} options={options} type="doughnut" />
+          <Doughnut
+            data={getData(props.data, props.labels, props.secondaryLabel)}
+            options={getOptions(props.title)}
+            type="doughnut"
+          />
         </div>
       </CardContent>
     </Card>
