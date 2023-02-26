@@ -1,18 +1,19 @@
 import json
 from flask import Flask, request
 import interface
+import messenger
 
 app = Flask(__name__)
 
 
 @app.route('/message_trend')
 def get_trend_status():
-    return {'message': open("status_trend.txt").read()}
+    return messenger.read_msg("trend")
 
 
 @app.route('/message_sentiment')
 def get_sentiment_status():
-    return {'message': open("status_sentiment.txt").read()}
+    return messenger.read_msg("sentiment")
 
 
 @app.route('/trends', methods=["POST"])

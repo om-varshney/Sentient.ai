@@ -265,7 +265,7 @@ export const BasicDashboard = ({ handle, data, message }) => {
                       "Evening (16 - 20 hours)",
                       "Night (20 - 00 hours)",
                     ]}
-                    secondary_labels={data["time_trends"]["labels"]}
+                    secondaryLabels={data["time_trends"]["labels"]}
                     data={[
                       data["time_trends"]["segments"]["views"],
                       data["time_trends"]["segments"]["likes"],

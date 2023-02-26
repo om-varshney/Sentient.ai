@@ -12,7 +12,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
+import { colors_dark } from "../../../utils/colors";
 
 const useStyles = makeStyles((theme) => ({
   chartCard: {
@@ -53,7 +53,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Emotion Comparison Bar Chart",
+      text: "Polarity vs Time Analysis",
       font: {
         size: 14,
         family: "Roboto",
@@ -62,50 +62,37 @@ export const options = {
   },
 };
 
-const labels = ["Happy", "Angry", "Surprise", "Sad", "Fear"];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "2021",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: "rgba(244,118,239,1)",
-      backgroundColor: "rgba(244,118,239,0.5)",
-      borderRadius: 4,
-      borderWidth: 2,
-    },
-    {
-      label: "2022",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: "rgba(106,112,255,1)",
-      backgroundColor: "rgba(106,112,255,0.5)",
-      borderRadius: 4,
-      borderWidth: 2,
-    },
-    {
-      label: "2023",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: "rgba(135,191,16,1)",
-      backgroundColor: "rgba(135,191,16,0.5)",
-      borderRadius: 4,
-      borderWidth: 2,
-    },
-  ],
+const getData = (dataset, labels, secondaryLabels) => {
+  return {
+    labels,
+    datasets: dataset.map((data, idx) => {
+      return {
+        label: secondaryLabels[idx],
+        data: data,
+        borderColor: colors_dark[idx + 1][0],
+        backgroundColor: colors_dark[idx + 1][1],
+        borderWidth: 3,
+        borderRadius: 4,
+      };
+    }),
+  };
 };
 
-export default function ChartCard() {
+export default function ChartCard(props) {
   const classes = useStyles();
   return (
     <Card className={classes.chartCard}>
-      {/*<CardHeader title="Bar Chart" className={classes.chartTitle} />*/}
       <CardContent>
         <div
           style={{
             height: "40vh",
           }}
         >
-          <Bar options={options} data={data} type={"bar"} />
+          <Bar
+            options={options}
+            data={getData(props.data, props.labels, props.secondaryLabels)}
+            type={"bar"}
+          />
         </div>
       </CardContent>
     </Card>

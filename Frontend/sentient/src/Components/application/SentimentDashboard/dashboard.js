@@ -9,7 +9,7 @@ import ChartCard from "./chartCard";
 import RadarCard from "./radarCard";
 import ProfileCard from "../basicDashboard/profileCard";
 import { PreLoad } from "../loadingScreen";
-import { isEmpty } from "../../../utils/utils";
+import { indexOfMax, isEmpty } from "../../../utils/utils";
 import InfoTrendCard from "../basicDashboard/infoTrendCard";
 import InfoCard from "../basicDashboard/infoCard";
 import { InvalidAccount } from "../invalidAccountScreen";
@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
   dashboardContainer: {
     backgroundColor: "#eef2f6",
     width: "100vw",
-    // minHeight: "90vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -55,7 +54,7 @@ export const SentimentDashboard = ({ handle, data, message }) => {
   return (
     <>
       {isEmpty(data) ? (
-        <PreLoad message={message} />
+        <PreLoad content={message.msg} progress={message.value} />
       ) : data["analysis"] ? (
         <Grid container className={classes.dashboard}>
           <img src={leaves_1} alt="" className={classes.backgroundEffect1} />
@@ -197,6 +196,70 @@ export const SentimentDashboard = ({ handle, data, message }) => {
                     }
                   />
                 </Grid>
+              </Grid>
+            </Grid>
+            <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
+              <Grid item container xs={5} spacing={3} alignContent="flex-start">
+                <Grid item xs={12}>
+                  <InfoCard
+                    content={
+                      [
+                        "Midnight",
+                        "Early Morning",
+                        "Morning",
+                        "Afternoon",
+                        "Evening",
+                        "Night",
+                      ][
+                        indexOfMax([
+                          data["time_trends"]["emotions"]["Happy"],
+                          data["time_trends"]["emotions"]["Surprised"],
+                        ])
+                      ]
+                    }
+                    inference={1}
+                    message="Is the best time to tweet"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <ChartCard
+                    labels={[
+                      "Midnight",
+                      "Early Morning",
+                      "Morning",
+                      "Afternoon",
+                      "Evening",
+                      "Night",
+                    ]}
+                    secondaryLabels={data["time_trends"]["polarity_labels"]}
+                    data={[
+                      data["time_trends"]["polarity"]["Positive"],
+                      data["time_trends"]["polarity"]["Negative"],
+                    ].filter(Boolean)}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={7}>
+                <RadarCard
+                  labels={[
+                    "Midnight (00 - 04 hours)",
+                    "Early Morning (04 - 08 hours)",
+                    "Morning (08 - 12 hours)",
+                    "Afternoon (12 - 16 hours)",
+                    "Evening (16 - 20 hours)",
+                    "Night (20 - 00 hours)",
+                  ]}
+                  secondaryLabels={data["time_trends"]["emotion_labels"]}
+                  data={[
+                    data["time_trends"]["emotions"]["Happy"],
+                    data["time_trends"]["emotions"]["Surprise"],
+                    data["time_trends"]["emotions"]["Angry"],
+                    data["time_trends"]["emotions"]["Sad"],
+                    data["time_trends"]["emotions"]["Fear"],
+                  ].filter(Boolean)}
+                  size={65}
+                  title={"Aggregate Time-Emotion Analysis"}
+                />
               </Grid>
             </Grid>
           </Grid>

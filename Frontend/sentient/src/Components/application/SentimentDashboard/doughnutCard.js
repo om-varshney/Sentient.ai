@@ -46,6 +46,7 @@ const getOptions = (title) => {
         },
       },
     },
+    rotation: 45 * Math.PI,
   };
 };
 
@@ -57,13 +58,13 @@ const getData = (data, labels, secondaryLabel) => {
         label: secondaryLabel,
         data: data,
         backgroundColor: [
-          "rgba(244,118,239,0.5)",
           "rgba(106,112,255,0.5)",
+          "rgba(244,118,239,0.5)",
           "rgba(135,191,16,0.5)",
           "rgba(137,99,99,0.5)",
           "rgba(255,105,97,0.5)",
         ],
-        borderColor: ["#F476EF", "#6A70FF", "#87BF10", "#896363", "#ff6961"],
+        borderColor: ["#6A70FF", "#F476EF", "#87BF10", "#896363", "#ff6961"],
         borderWidth: 3,
       },
     ],

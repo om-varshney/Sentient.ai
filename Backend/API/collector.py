@@ -25,7 +25,7 @@ class HandleTweetsCollector:
         self.status = "Handle Tweet collector Initialized"
         self.limit = 500
         self.collected = 0
-        write_msg(self.status, "trend")
+        write_msg(self.status, "trend", progress=0)
 
     def build_query(self):
         return f"(from:{self.handle}) -filter:replies " \
@@ -38,7 +38,7 @@ class HandleTweetsCollector:
         for tweet in snt.TwitterSearchScraper(query).get_items():
             if self.collected == self.limit:
                 self.status = "Handle Tweets Extracted"
-                write_msg(self.status, "trend")
+                write_msg(self.status, "trend", progress=100)
                 break
             tweets.append([
                 tweet.user.username,
@@ -53,7 +53,8 @@ class HandleTweetsCollector:
                 tweet.viewCount
             ])
             self.collected += 1
-            write_msg(f"Tweets Collected: {round(self.collected / self.limit * 100, 2)}%", "trend")
+            write_msg(f"Collecting Tweets for {self.handle}",
+                      "trend", progress=round(self.collected / self.limit * 100, 2))
         return tweets
 
 
@@ -72,7 +73,7 @@ class CommentsTweetsCollector:
         self.status = "Comment Tweets Collector Initialized"
         self.limit = 500
         self.collected = 0
-        write_msg(self.status, "sentiment")
+        write_msg(self.status, "sentiment", progress=0)
 
     def build_query(self):
         return f"(to:{self.handle}) min_faves:{self.min_faves} " \
@@ -84,7 +85,7 @@ class CommentsTweetsCollector:
         for tweet in snt.TwitterSearchScraper(query).get_items():
             if self.collected == self.limit:
                 self.status = "Comment Tweets Extracted"
-                write_msg(self.status, "sentiment")
+                write_msg(self.status, "sentiment", progress=100)
                 break
             tweets.append([
                 tweet.user.username,
@@ -97,5 +98,6 @@ class CommentsTweetsCollector:
                 tweet.viewCount,
             ])
             self.collected += 1
-            write_msg(f"Comments Collected: {round(self.collected / self.limit * 100, 2)}%", "sentiment")
+            write_msg(f"Collecting Comments and Replies for {self.handle}", "sentiment",
+                      progress=round(self.collected / self.limit * 100, 2))
         return tweets

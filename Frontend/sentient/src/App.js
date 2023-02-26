@@ -15,7 +15,8 @@ import {
   setTrendMessage,
 } from "./Redux/actions/sentientActions";
 import { isEmpty } from "./utils/utils";
-import { PreLoad } from "./Components/application/loadingScreen";
+
+// Todo: Create function to clear timeout if user exits before both pages have loaded.
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -48,7 +49,9 @@ function App() {
           },
         })
           .then((response) => response.json())
-          .then((data) => dispatch(setTrendMessage(data.message)))
+          .then((data) =>
+            dispatch(setTrendMessage({ msg: data.message, value: data.value }))
+          )
           .catch((error) => console.log(error));
       }
     }, 1000);
@@ -62,7 +65,11 @@ function App() {
           },
         })
           .then((response) => response.json())
-          .then((data) => dispatch(setSentimentMessage(data.message)))
+          .then((data) =>
+            dispatch(
+              setSentimentMessage({ msg: data.message, value: data.value })
+            )
+          )
           .catch((error) => console.log(error));
       }
     }, 1000);

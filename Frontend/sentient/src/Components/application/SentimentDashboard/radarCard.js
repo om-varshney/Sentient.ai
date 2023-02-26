@@ -84,12 +84,12 @@ const getOptions = (title) => {
   };
 };
 
-const getData = (dataset, labels, secondary_labels) => {
+const getData = (dataset, labels, secondaryLabels) => {
   return {
     labels,
     datasets: dataset.map((data, idx) => {
       return {
-        label: secondary_labels[idx],
+        label: secondaryLabels[idx],
         data: data,
         borderColor: colors[idx][0],
         backgroundColor: colors[idx][1],
@@ -112,7 +112,7 @@ export default function RadarCard(props) {
         >
           <Radar
             type={"radar"}
-            data={getData(props.data, props.labels, props.secondary_labels)}
+            data={getData(props.data, props.labels, props.secondaryLabels)}
             options={getOptions(props.title)}
           />
         </div>

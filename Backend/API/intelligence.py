@@ -70,7 +70,7 @@ class TrendIntelligence:
                     limit=1,
                     inplace=True
                 )
-        write_msg("Preprocessing Complete", "trend")
+        write_msg("Preprocessing Complete", "trend", progress=0)
 
     def likes_trend(self):
         if "likes" in self.all_null:
@@ -202,7 +202,7 @@ class TrendIntelligence:
             return {
                 "analysis": False,
             }
-        write_msg("Preprocessing Handle Tweets", "trend")
+        write_msg("Preprocessing Handle Tweets", "trend", progress=0)
         self.preprocess()
         return {
             "analysis": True,
@@ -275,7 +275,7 @@ class SentimentIntelligence:
         return text.lower()
 
     def preprocess(self):
-        write_msg("Preprocessing Comment Tweets", "sentiment")
+        write_msg("Preprocessing Comment Tweets", "sentiment", progress=0)
         # Preprocess Dates
         self.df["date"] = pd.to_datetime(self.df["date"])
         self.df["Year"] = self.df["date"].dt.year
@@ -299,21 +299,21 @@ class SentimentIntelligence:
 
         # Preprocess Text
         self.df["content"] = self.df["content"].apply(self._pp_text)
-        write_msg("Preprocessing Complete", "sentiment")
+        write_msg("Preprocessing Complete", "sentiment", progress=0)
 
     def _add_sentiment(self):
-        write_msg("Performing Sentiment Analysis", "sentiment")
+        write_msg("Performing Sentiment Analysis", "sentiment", progress=0)
         sent = SentimentIntensityAnalyzer()
         polarity, emotion, count, total = [], [], 0, self.collector.collected
         for content in self.df["content"].values:
             polarity.append(sent.polarity_scores(content))
             emotion.append(te.get_emotion(content))
-            write_msg(f"Analysing Tweet Polarity and Emotion: {round(count / total * 100, 2)}%", "sentiment")
+            write_msg(f"Determining Tweet Polarity and Emotion", "sentiment", progress=round(count / total * 100, 2))
             count += 1
         pdf = pandas.DataFrame(polarity)
         edf = pandas.DataFrame(emotion)
         self.df = pd.concat([self.df, pdf, edf], axis=1)
-        write_msg("Sentiment Analysis Complete", "sentiment")
+        write_msg("Sentiment Analysis Complete", "sentiment", progress=100)
 
     def positive_trend(self):
         if "pos" in self.all_null:
@@ -381,6 +381,74 @@ class SentimentIntelligence:
             "inference": int(index_max) < 2
         }
 
+    def time_trends(self):
+        numeric_columns = [i for i in ["Happy", "Angry", "Sad", "Surprise", "Fear", "pos", "neg"] if i not in self.all_null]
+        time_frame = self.df.groupby("Time").mean(numeric_only=True).loc[:, numeric_columns]
+        return {
+            "polarity": {
+                "Positive": self.scale_vector([0 if np.isnan(value) else value for value in [
+                    time_frame.iloc[:4, :]["pos"].values.mean(),
+                    time_frame.iloc[4: 8, :]["pos"].values.mean(),
+                    time_frame.iloc[8: 12, :]["pos"].values.mean(),
+                    time_frame.iloc[12: 16, :]["pos"].values.mean(),
+                    time_frame.iloc[16: 20, :]["pos"].values.mean(),
+                    time_frame.iloc[20:, :]["pos"].values.mean(),
+                ]]) if "pos" not in self.all_null else False,
+                "Negative": self.scale_vector([0 if np.isnan(value) else value for value in [
+                    time_frame.iloc[:4, :]["neg"].values.mean(),
+                    time_frame.iloc[4: 8, :]["neg"].values.mean(),
+                    time_frame.iloc[8: 12, :]["neg"].values.mean(),
+                    time_frame.iloc[12: 16, :]["neg"].values.mean(),
+                    time_frame.iloc[16: 20, :]["neg"].values.mean(),
+                    time_frame.iloc[20:, :]["neg"].values.mean(),
+                ]]) if "neg" not in self.all_null else False,
+            },
+            "emotions": {
+                "Happy": self.scale_vector([0 if np.isnan(value) else value for value in [
+                    time_frame.iloc[:4, :]["Happy"].values.mean(),
+                    time_frame.iloc[4: 8, :]["Happy"].values.mean(),
+                    time_frame.iloc[8: 12, :]["Happy"].values.mean(),
+                    time_frame.iloc[12: 16, :]["Happy"].values.mean(),
+                    time_frame.iloc[16: 20, :]["Happy"].values.mean(),
+                    time_frame.iloc[20:, :]["Happy"].values.mean(),
+                ]]) if "Happy" not in self.all_null else False,
+                "Surprise": self.scale_vector([0 if np.isnan(value) else value for value in [
+                    time_frame.iloc[:4, :]["Surprise"].values.mean(),
+                    time_frame.iloc[4: 8, :]["Surprise"].values.mean(),
+                    time_frame.iloc[8: 12, :]["Surprise"].values.mean(),
+                    time_frame.iloc[12: 16, :]["Surprise"].values.mean(),
+                    time_frame.iloc[16: 20, :]["Surprise"].values.mean(),
+                    time_frame.iloc[20:, :]["Surprise"].values.mean(),
+                ]]) if "Surprise" not in self.all_null else False,
+                "Angry": self.scale_vector([0 if np.isnan(value) else value for value in [
+                    time_frame.iloc[:4, :]["Angry"].values.mean(),
+                    time_frame.iloc[4: 8, :]["Angry"].values.mean(),
+                    time_frame.iloc[8: 12, :]["Angry"].values.mean(),
+                    time_frame.iloc[12: 16, :]["Angry"].values.mean(),
+                    time_frame.iloc[16: 20, :]["Angry"].values.mean(),
+                    time_frame.iloc[20:, :]["Angry"].values.mean(),
+                ]]) if "Angry" not in self.all_null else False,
+                "Sad": self.scale_vector([0 if np.isnan(value) else value for value in [
+                    time_frame.iloc[:4, :]["Sad"].values.mean(),
+                    time_frame.iloc[4: 8, :]["Sad"].values.mean(),
+                    time_frame.iloc[8: 12, :]["Sad"].values.mean(),
+                    time_frame.iloc[12: 16, :]["Sad"].values.mean(),
+                    time_frame.iloc[16: 20, :]["Sad"].values.mean(),
+                    time_frame.iloc[20:, :]["Sad"].values.mean(),
+                ]]) if "Sad" not in self.all_null else False,
+                "Fear": self.scale_vector([0 if np.isnan(value) else value for value in [
+                    time_frame.iloc[:4, :]["Fear"].values.mean(),
+                    time_frame.iloc[4: 8, :]["Fear"].values.mean(),
+                    time_frame.iloc[8: 12, :]["Fear"].values.mean(),
+                    time_frame.iloc[12: 16, :]["Fear"].values.mean(),
+                    time_frame.iloc[16: 20, :]["Fear"].values.mean(),
+                    time_frame.iloc[20:, :]["Fear"].values.mean(),
+                ]]) if "Fear" not in self.all_null else False,
+            },
+            "emotion_labels": numeric_columns[:5],
+            "polarity_labels": ["Positive", "Negative"],
+        }
+
     def analysis_json(self):
         if self.collector.collected < 200:
             return {
@@ -395,4 +463,5 @@ class SentimentIntelligence:
             "neutral_trend": self.neutral_trend(),
             "polarity_distribution": self.polarity_distribution(),
             "emotion_distribution": self.emotion_distribution(),
+            "time_trends": self.time_trends(),
         }

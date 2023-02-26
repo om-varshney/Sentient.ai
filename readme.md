@@ -27,3 +27,7 @@ updating in real time. Further I would like to have interactive Charts for the u
 10. Preprocess the tweets using Regex before sentiment analysis.
 11. Add Bi-Gram and Tri-Gram sentiment analysis for the dataset using a radar chart.
 12. **Maybe. Just Maybe. Integrate BERT to answer Question about data.**
+13. There may be three kinds of radar charts
+    1. one which shows different emotional reaction at different times.
+    2. second which shows the amount of views, likes and retweets each kind of comment is getting.
+    3. third which shows the kind of emotions top commentors are displaying.

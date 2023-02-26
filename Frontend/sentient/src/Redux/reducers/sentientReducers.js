@@ -42,7 +42,10 @@ export const queryFilterViewReducer = (state = false, { type, payload }) => {
   }
 };
 
-export const trendMessageReducer = (state = "", { type, payload }) => {
+export const trendMessageReducer = (
+  state = { msg: "", value: 0 },
+  { type, payload }
+) => {
   switch (type) {
     case ActionTypes.SET_TREND_MESSAGE:
       return payload;
@@ -60,7 +63,10 @@ export const trendDataReducer = (state = {}, { type, payload }) => {
   }
 };
 
-export const sentimentMessageReducer = (state = "", { type, payload }) => {
+export const sentimentMessageReducer = (
+  state = { msg: "", value: 0 },
+  { type, payload }
+) => {
   switch (type) {
     case ActionTypes.SET_SENTIMENT_MESSAGE:
       return payload;
