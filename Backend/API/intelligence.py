@@ -3,6 +3,9 @@ import pandas as pd
 from messenger import write_msg
 import collector
 import datetime
+import re
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import text2emotion as te
 
 
 class TrendIntelligence:
@@ -66,7 +69,7 @@ class TrendIntelligence:
                     limit=1,
                     inplace=True
                 )
-        write_msg("Preprocessing Complete")
+        write_msg("Preprocessing Complete", "trend")
 
     def likes_trend(self):
         if "likes" in self.all_null:
@@ -147,11 +150,11 @@ class TrendIntelligence:
     def time_trends(self):
         numeric_columns = [i for i in ["views", "likes", "retweets"] if i not in self.all_null]
         time_frame = self.df.groupby("Time").mean(numeric_only=True).loc[:, numeric_columns]
-        time_frame.fillna(time_frame.mean(), inplace=True)
         return {
             "views": self.scale_vector(time_frame["views"].values.tolist()) if "views" not in self.all_null else False,
             "likes": self.scale_vector(time_frame["likes"].values.tolist()) if "likes" not in self.all_null else False,
-            "retweets": self.scale_vector(time_frame["retweets"].values.tolist()) if "retweets" not in self.all_null else False,
+            "retweets": self.scale_vector(
+                time_frame["retweets"].values.tolist()) if "retweets" not in self.all_null else False,
             "segments": {
                 "views": self.scale_vector([0 if np.isnan(value) else value for value in [
                     time_frame.iloc[:4, :]["views"].values.mean(),
@@ -178,7 +181,7 @@ class TrendIntelligence:
                     time_frame.iloc[20:, :]["retweets"].values.mean(),
                 ]]) if "retweets" not in self.all_null else False,
             },
-            "labels": [i for i in ["views", "likes", "retweets"] if i not in self.all_null]
+            "labels": numeric_columns,
         }
 
     def tweet_span(self):
@@ -198,7 +201,7 @@ class TrendIntelligence:
             return {
                 "analysis": False,
             }
-        write_msg("Preprocessing Handle Tweets")
+        write_msg("Preprocessing Handle Tweets", "trend")
         self.preprocess()
         return {
             "analysis": True,
@@ -215,5 +218,147 @@ class TrendIntelligence:
 
 
 class SentimentIntelligence:
-    def __init__(self):
-        ...
+    def __init__(
+            self,
+            handle: str,
+            min_faves: int = 100,
+            since: str = "2015-01-01",
+            until: str = str(datetime.date.today()),
+    ):
+        self.collector = collector.CommentsTweetsCollector(
+            handle,
+            min_faves,
+            since,
+            until,
+        )
+        self.tweets = self.collector.collect_tweets()
+        self.df = pd.DataFrame(
+            self.tweets,
+            columns=[
+                "username",
+                "followers",
+                "date",
+                "content",
+                "replies",
+                "likes",
+                "retweets",
+                "views",
+            ]
+        )
+        self.all_null = []
+
+    @staticmethod
+    def scale_vector(vec):
+        mx = max(vec) or 1
+        return list(map(lambda elem: elem / mx, vec))
+
+    @staticmethod
+    def _pp_text(text):
+        # Remove links
+        text = re.sub('http://\S+|https://\S+', '', text)
+        text = re.sub('http[s]?://\S+', '', text)
+        text = re.sub(r"http\S+", "", text)
+        # Convert HTML references
+        text = re.sub('&amp', 'and', text)
+        text = re.sub('&lt', '<', text)
+        text = re.sub('&gt', '>', text)
+        # Remove new line characters
+        text = re.sub('[\r\n]+', ' ', text)
+        # Remove mentions
+        text = re.sub(r'@\w+', '', text)
+        # Remove hashtags
+        text = re.sub(r'#\w+', '', text)
+        # Remove multiple space characters
+        text = re.sub('\s+', ' ', text)
+        # Convert to lowercase
+        return text.lower()
+
+    def preprocess(self):
+        write_msg("Preprocessing Comment Tweets", "sentiment")
+        # Preprocess Dates
+        self.df["date"] = pd.to_datetime(self.df["date"])
+        self.df["Year"] = self.df["date"].dt.year
+        self.df["Month"] = self.df["date"].dt.month
+        self.df["Day"] = self.df["date"].dt.day
+        self.df["Time"] = self.df["date"].dt.hour
+        self.df.drop("date", inplace=True, axis=1)
+
+        # Preprocess Null Values
+        nan_ = self.df.columns[self.df.isna().any()].tolist()
+        for i in nan_:
+            if self.df.loc[:, i].isnull().all():
+                self.all_null.append(i)
+                continue
+            while self.df.loc[:, i].isnull().sum() != 0:
+                self.df.loc[:, i].fillna(
+                    np.random.normal(self.df.loc[:, i].mean(), self.df.loc[:, i].std()),
+                    limit=1,
+                    inplace=True
+                )
+
+        # Preprocess Text
+        self.df["content"] = self.df["content"].apply(self._pp_text)
+        write_msg("Preprocessing Complete", "sentiment")
+
+    def _add_sentiment(self):
+        write_msg("Performing Sentiment Analysis", "sentiment")
+        sent = SentimentIntensityAnalyzer()
+        polarity = pd.DataFrame(
+            [
+                sent.polarity_scores(content) for content in self.df["content"].values
+            ]
+        )
+        emotion = pd.DataFrame(
+            [
+                te.get_emotion(content) for content in self.df["content"].values
+            ]
+        )
+        self.df = pd.concat([self.df, polarity, emotion], axis=1)
+        write_msg("Sentiment Analysis Complete", "sentiment")
+
+    def positive_trend(self):
+        if "pos" in self.all_null:
+            return False
+        split = np.array_split(self.df["pos"].dropna(), 10)
+        trend = [view.mean() for view in split[::-1]]
+        return {
+            "trend": trend,
+            "mean": sum(trend) / 10,
+            "inference": bool(trend[-1] > sum(trend[:-1]) / 9)
+        }
+
+    def negative_trend(self):
+        if "neg" in self.all_null:
+            return False
+        split = np.array_split(self.df["neg"].dropna(), 10)
+        trend = [view.mean() for view in split[::-1]]
+        return {
+            "trend": trend,
+            "mean": sum(trend) / 10,
+            "inference": bool(trend[-1] > sum(trend[:-1]) / 9)
+        }
+
+    def neutral_trend(self):
+        if "neu" in self.all_null:
+            return False
+        split = np.array_split(self.df["neu"].dropna(), 10)
+        trend = [view.mean() for view in split[::-1]]
+        return {
+            "trend": trend,
+            "mean": sum(trend) / 10,
+            "inference": bool(trend[-1] > sum(trend[:-1]) / 9)
+        }
+
+    def analysis_json(self):
+        if self.collector.collected < 200:
+            return {
+                "analysis": False,
+            }
+        self.preprocess()
+        self._add_sentiment()
+        return {
+            "analysis": True,
+            "positive_trend": self.positive_trend(),
+            "negative_trend": self.negative_trend(),
+            "neutral_trend": self.neutral_trend(),
+        }

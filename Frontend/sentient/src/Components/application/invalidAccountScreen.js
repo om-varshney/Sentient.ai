@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import { Stack } from "@mui/material";
 import {
   setQuery,
+  setQueryFiltersView,
   setTrendData,
   setTrendMessage,
   setView,
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     top: "5vh",
   },
   loadingPage: {
-    backgroundColor: "#eef2f6",
+    backgroundColor: "aliceblue",
     width: "100vw",
     height: "100vh",
   },
@@ -47,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F476EF !important",
     borderRadius: "500px !important",
   },
+  secondaryButton: {
+    backgroundColor: "#6A70FF !important",
+    borderRadius: "500px !important",
+  },
 }));
 
 const setHome = (dispatch) => {
@@ -60,6 +65,17 @@ const setHome = (dispatch) => {
   dispatch(setTrendData({}));
   dispatch(setTrendMessage(""));
   dispatch(setQuery(""));
+};
+
+const editQuery = (dispatch) => {
+  dispatch(
+    setView({
+      homeState: true,
+      trendDashboard: false,
+      sentimentDashboard: false,
+    })
+  );
+  dispatch(setQueryFiltersView(true));
 };
 
 export const InvalidAccount = (props) => {
@@ -79,22 +95,37 @@ export const InvalidAccount = (props) => {
       <img src={leaves_2} alt="" className={classes.backgroundEffect2} />
       <img src={logo} alt="Sentient Logo" className={classes.logo} />
       <Stack spacing={3} alignItems="center" style={{ maxWidth: "50vw" }}>
-        <img src={notFound} alt="not found" width="60%" />
+        <img src={notFound} alt="not found" width="70%" className="float" />
         <Typography className={classes.mainHeading}>
-          Sorry but {props.handle.replace(/(.{15})..+/, "$1...")} either does
-          not exist or may not have enough tweets for analysis. Please note that
-          accounts with less than 200 Original Tweets are not eligible for
-          analysis.
+          Sorry but{" "}
+          <span style={{ fontWeight: 600 }}>
+            {props.handle.replace(/(.{15})..+/, "$1...")}
+          </span>{" "}
+          either does not exist or may not have enough tweets for analysis.
+          Please note that accounts with less than 200 Original Tweets are not
+          eligible for analysis. If you think this is a mistake, try relaxing
+          the query filters.
         </Typography>
-        <Button
-          autoFocus
-          variant="contained"
-          className={classes.primaryButton}
-          size="large"
-          onClick={() => setHome(dispatch)}
-        >
-          Try another Account
-        </Button>
+        <Stack direction="row" spacing={3}>
+          <Button
+            autoFocus
+            variant="contained"
+            className={classes.primaryButton}
+            size="large"
+            onClick={() => setHome(dispatch)}
+          >
+            Try another Account
+          </Button>
+          <Button
+            autoFocus
+            variant="contained"
+            className={classes.secondaryButton}
+            size="large"
+            onClick={() => editQuery(dispatch)}
+          >
+            Edit Filters
+          </Button>
+        </Stack>
       </Stack>
     </Grid>
   );

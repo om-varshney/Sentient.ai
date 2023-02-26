@@ -9,8 +9,14 @@ def get_trend_data(handle):
     return intelligence.TrendIntelligence(handle).analysis_json()
 
 
+def get_sentiment_data(handle):
+    return intelligence.SentimentIntelligence(handle).analysis_json()
+
+
 if __name__ == "__main__":
     # print(get_trend_data("@elonmusk"))
     # print(get_trend_data("@BillGates"))
     # print(get_trend_data("@Harry_Styles"))
-    print(get_trend_data("@introvertmemes"))
+    print(get_trend_data("@introvertsmemes"))
+    # elon = intelligence.SentimentIntelligence("@elonmusk")
+

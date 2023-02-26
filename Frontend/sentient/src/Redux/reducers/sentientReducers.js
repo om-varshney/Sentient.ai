@@ -59,3 +59,21 @@ export const trendDataReducer = (state = {}, { type, payload }) => {
       return state;
   }
 };
+
+export const sentimentMessageReducer = (state = "", { type, payload }) => {
+  switch (type) {
+    case ActionTypes.SET_SENTIMENT_MESSAGE:
+      return payload;
+    default:
+      return state;
+  }
+};
+
+export const sentimentDataReducer = (state = {}, { type, payload }) => {
+  switch (type) {
+    case ActionTypes.SET_SENTIMENT_DATA:
+      return payload;
+    default:
+      return state;
+  }
+};

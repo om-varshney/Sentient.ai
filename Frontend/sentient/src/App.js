@@ -7,7 +7,13 @@ import { Snackbar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import SideNav from "./Components/application/sideNav";
 import Filters from "./Components/application/filters";
-import { setTrendData, setTrendMessage } from "./Redux/actions/sentientActions";
+import {
+  setNotificationContent,
+  setSentimentData,
+  setSentimentMessage,
+  setTrendData,
+  setTrendMessage,
+} from "./Redux/actions/sentientActions";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -31,9 +37,9 @@ function App() {
   );
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const trendInterval = setInterval(() => {
       if (appState.query !== "") {
-        fetch(`/message`, {
+        fetch(`/message_trend`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -44,6 +50,21 @@ function App() {
           .catch((error) => console.log(error));
       }
     }, 1000);
+
+    const sentimentInterval = setInterval(() => {
+      if (appState.query !== "") {
+        fetch(`/message_sentiment`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => dispatch(setSentimentMessage(data.message)))
+          .catch((error) => console.log(error));
+      }
+    }, 1000);
+
     fetch(`/trends`, {
       method: "POST",
       headers: {
@@ -54,7 +75,35 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         dispatch(setTrendData(data));
-        clearInterval(interval);
+        dispatch(
+          setNotificationContent({
+            type: "success",
+            msg: "Analytics Dashboard is Ready!",
+            id: Math.random(),
+          })
+        );
+        clearInterval(trendInterval);
+      })
+      .catch((error) => console.log(error));
+
+    fetch(`/sentiment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(appState.query),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setSentimentData(data));
+        dispatch(
+          setNotificationContent({
+            type: "success",
+            msg: "Sentiment Dashboard is Ready!",
+            id: Math.random(),
+          })
+        );
+        clearInterval(sentimentInterval);
       })
       .catch((error) => console.log(error));
   }, [appState.query, dispatch]);
@@ -70,7 +119,11 @@ function App() {
           message={appState.trendMessage}
         />
       ) : (
-        <SentimentDashboard />
+        <SentimentDashboard
+          handle={appState.query}
+          data={appState.sentimentData}
+          message={appState.sentimentMessage}
+        />
       )}
       {appState.view.homeState || <SideNav />}
       <Filters open={appState.queryFilterView} />

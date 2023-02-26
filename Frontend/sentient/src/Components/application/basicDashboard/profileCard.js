@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "500px !important",
     textTransform: "none !important",
     backgroundImage: "linear-gradient(45deg, #6A70FF, #FF8AFA) !important",
-
     color: "white !important",
     fontSize: "1rem !important",
   },

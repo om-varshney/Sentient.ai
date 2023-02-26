@@ -6,6 +6,8 @@ import {
   queryFilterViewReducer,
   trendMessageReducer,
   trendDataReducer,
+  sentimentMessageReducer,
+  sentimentDataReducer,
 } from "./sentientReducers";
 
 export const reducers = combineReducers({
@@ -15,4 +17,6 @@ export const reducers = combineReducers({
   queryFilterView: queryFilterViewReducer,
   trendMessage: trendMessageReducer,
   trendData: trendDataReducer,
+  sentimentMessage: sentimentMessageReducer,
+  sentimentData: sentimentDataReducer,
 });

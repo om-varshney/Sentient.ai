@@ -41,3 +41,17 @@ export const setTrendData = (data) => {
     payload: data,
   };
 };
+
+export const setSentimentMessage = (message) => {
+  return {
+    type: ActionTypes.SET_SENTIMENT_MESSAGE,
+    payload: message,
+  };
+};
+
+export const setSentimentData = (data) => {
+  return {
+    type: ActionTypes.SET_SENTIMENT_DATA,
+    payload: data,
+  };
+};

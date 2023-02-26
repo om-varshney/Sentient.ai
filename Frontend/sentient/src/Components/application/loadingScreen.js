@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     top: "5vh",
   },
   loadingPage: {
-    backgroundColor: "#eef2f6",
+    backgroundColor: "aliceblue",
     width: "100vw",
     height: "100vh",
   },
@@ -49,7 +49,7 @@ export const PreLoad = (props) => {
       <img src={leaves_1} alt="" className={classes.backgroundEffect1} />
       <img src={leaves_2} alt="" className={classes.backgroundEffect2} />
       <img src={logo} alt="Sentient Logo" className={classes.logo} />
-      <img src={meditate} alt="meditate" width="30%" id="meditate" />
+      <img src={meditate} alt="meditate" width="30%" className="float" />
       <Typography variant={"h6"} style={{ color: "rgba(63,61,86,0.9)" }}>
         Sit back and relax while Sentient prepares your Analytics Report.
       </Typography>

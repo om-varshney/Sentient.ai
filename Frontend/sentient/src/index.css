@@ -85,7 +85,7 @@ img {
   background-color: #87BF10 !important;
 }
 
-@keyframes float {
+@keyframes floatAnimation {
 	0% {
 		transform: translatey(0px);
 	}
@@ -97,7 +97,7 @@ img {
 	}
 }
 
-#meditate {
+.float {
     transform: translatey(0);
-	animation: float 4s ease-in-out infinite;
+	animation: floatAnimation 4s ease-in-out infinite;
 }
