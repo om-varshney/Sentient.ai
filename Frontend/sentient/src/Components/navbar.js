@@ -1,9 +1,11 @@
 import { makeStyles } from "@mui/styles";
 import { Button, Grid } from "@mui/material";
 import logo from "../Assets/Logo.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setQuery,
+  setSentimentData,
+  setSentimentMessage,
   setTrendData,
   setTrendMessage,
   setView,
@@ -30,7 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const setHome = (dispatch) => {
+const setHome = (dispatch, timer1, timer2) => {
+  clearInterval(timer1);
+  clearInterval(timer2);
   dispatch(
     setView({
       homeState: true,
@@ -40,17 +44,25 @@ const setHome = (dispatch) => {
   );
   dispatch(setTrendData({}));
   dispatch(setTrendMessage(""));
+  dispatch(setSentimentData({}));
+  dispatch(setSentimentMessage(""));
   dispatch(setQuery(""));
 };
 
 export const NavBar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const appState = useSelector((state) => state);
+  const timer1 = appState.trendTimer;
+  const timer2 = appState.sentimentTimer;
 
   return (
     <Grid item xs={9} className={classes.navBar}>
       <img src={logo} alt="Logo" className={classes.logo} />
-      <Button className={classes.navButton} onClick={() => setHome(dispatch)}>
+      <Button
+        className={classes.navButton}
+        onClick={() => setHome(dispatch, timer1, timer2)}
+      >
         Home
       </Button>
       <Button className={classes.navButton}>About</Button>

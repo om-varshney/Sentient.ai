@@ -55,3 +55,17 @@ export const setSentimentData = (data) => {
     payload: data,
   };
 };
+
+export const setTrendTimer = (timer) => {
+  return {
+    type: ActionTypes.SET_TREND_TIMER,
+    payload: timer,
+  };
+};
+
+export const setSentimentTimer = (timer) => {
+  return {
+    type: ActionTypes.SET_SENTIMENT_TIMER,
+    payload: timer,
+  };
+};

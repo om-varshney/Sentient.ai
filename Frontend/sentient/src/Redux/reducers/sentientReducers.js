@@ -83,3 +83,21 @@ export const sentimentDataReducer = (state = {}, { type, payload }) => {
       return state;
   }
 };
+
+export const trendTimerReducer = (state = 0, { type, payload }) => {
+  switch (type) {
+    case ActionTypes.SET_TREND_TIMER:
+      return payload;
+    default:
+      return state;
+  }
+};
+
+export const sentimentTimerReducer = (state = 0, { type, payload }) => {
+  switch (type) {
+    case ActionTypes.SET_SENTIMENT_TIMER:
+      return payload;
+    default:
+      return state;
+  }
+};

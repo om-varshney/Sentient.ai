@@ -8,6 +8,8 @@ import {
   trendDataReducer,
   sentimentMessageReducer,
   sentimentDataReducer,
+  trendTimerReducer,
+  sentimentTimerReducer,
 } from "./sentientReducers";
 
 export const reducers = combineReducers({
@@ -19,4 +21,6 @@ export const reducers = combineReducers({
   trendData: trendDataReducer,
   sentimentMessage: sentimentMessageReducer,
   sentimentData: sentimentDataReducer,
+  trendTimer: trendTimerReducer,
+  sentimentTimer: sentimentTimerReducer,
 });

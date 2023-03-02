@@ -4,6 +4,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
+import CloseIcon from "@mui/icons-material/Close";
 import { makeStyles } from "@mui/styles";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -126,9 +127,9 @@ const MainInput = ({ placeHolderText, width }) => {
         size="large"
         aria-label="close"
         className={classes.filtersButton}
-        onClick={() => openFilters(input, dispatch)}
+        onClick={() => setInput("")}
       >
-        <TuneIcon className={classes.filtersIcon} />
+        <CloseIcon className={classes.filtersIcon} />
       </IconButton>
     </Paper>
   );

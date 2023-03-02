@@ -11,8 +11,10 @@ import {
   setNotificationContent,
   setSentimentData,
   setSentimentMessage,
+  setSentimentTimer,
   setTrendData,
   setTrendMessage,
+  setTrendTimer,
 } from "./Redux/actions/sentientActions";
 import { isEmpty } from "./utils/utils";
 
@@ -55,6 +57,7 @@ function App() {
           .catch((error) => console.log(error));
       }
     }, 1000);
+    dispatch(setTrendTimer(trendInterval));
 
     const sentimentInterval = setInterval(() => {
       if (appState.query !== "") {
@@ -73,6 +76,7 @@ function App() {
           .catch((error) => console.log(error));
       }
     }, 1000);
+    dispatch(setSentimentTimer(sentimentInterval));
 
     fetch(`/trends`, {
       method: "POST",
