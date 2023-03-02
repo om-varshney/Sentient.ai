@@ -164,7 +164,6 @@ export const SentimentDashboard = ({ handle, data, message }) => {
                   title={"Polarity distribution in comments"}
                 />
               </Grid>
-
               <Grid item container xs={2} spacing={3} alignContent="flex-start">
                 <Grid item xs={12}>
                   <InfoCard
@@ -199,6 +198,28 @@ export const SentimentDashboard = ({ handle, data, message }) => {
               </Grid>
             </Grid>
             <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
+              <Grid item xs={7}>
+                <RadarCard
+                  labels={[
+                    "Midnight (00 - 04 hours)",
+                    "Early Morning (04 - 08 hours)",
+                    "Morning (08 - 12 hours)",
+                    "Afternoon (12 - 16 hours)",
+                    "Evening (16 - 20 hours)",
+                    "Night (20 - 00 hours)",
+                  ]}
+                  secondaryLabels={data["time_trends"]["emotion_labels"]}
+                  data={[
+                    data["time_trends"]["emotions"]["Happy"],
+                    data["time_trends"]["emotions"]["Surprise"],
+                    data["time_trends"]["emotions"]["Angry"],
+                    data["time_trends"]["emotions"]["Sad"],
+                    data["time_trends"]["emotions"]["Fear"],
+                  ].filter(Boolean)}
+                  size={65}
+                  title={"Aggregate Time-Emotion Analysis"}
+                />
+              </Grid>
               <Grid item container xs={5} spacing={3} alignContent="flex-start">
                 <Grid item xs={12}>
                   <InfoCard
@@ -236,30 +257,61 @@ export const SentimentDashboard = ({ handle, data, message }) => {
                       data["time_trends"]["polarity"]["Positive"],
                       data["time_trends"]["polarity"]["Negative"],
                     ].filter(Boolean)}
+                    title="Polarity vs Time analysis"
                   />
                 </Grid>
               </Grid>
-              <Grid item xs={7}>
-                <RadarCard
-                  labels={[
-                    "Midnight (00 - 04 hours)",
-                    "Early Morning (04 - 08 hours)",
-                    "Morning (08 - 12 hours)",
-                    "Afternoon (12 - 16 hours)",
-                    "Evening (16 - 20 hours)",
-                    "Night (20 - 00 hours)",
-                  ]}
-                  secondaryLabels={data["time_trends"]["emotion_labels"]}
-                  data={[
-                    data["time_trends"]["emotions"]["Happy"],
-                    data["time_trends"]["emotions"]["Surprise"],
-                    data["time_trends"]["emotions"]["Angry"],
-                    data["time_trends"]["emotions"]["Sad"],
-                    data["time_trends"]["emotions"]["Fear"],
-                  ].filter(Boolean)}
-                  size={65}
-                  title={"Aggregate Time-Emotion Analysis"}
-                />
+            </Grid>
+            <Grid item container xs={12} spacing={3} style={{ paddingLeft: 0 }}>
+              <Grid item container xs={5} spacing={3}>
+                <Grid item xs={12}>
+                  <ChartCard
+                    labels={data["word_trends"]["t10_words"]}
+                    secondaryLabels={["top-words"]}
+                    data={[data["word_trends"]["t10_word_counts"]]}
+                    title="Top words in Comments"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <ChartCard
+                    labels={data["word_trends"]["t10_bigrams"]}
+                    secondaryLabels={["top-bigrams"]}
+                    data={[data["word_trends"]["t10_bigram_counts"]]}
+                    title="Top Bi-Grams in comments"
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                container
+                xs={7}
+                spacing={3}
+                alignContent={"flex-start"}
+              >
+                <Grid item xs={12}>
+                  <InfoCard
+                    content={data["word_trends"]["t10_bigrams"][0]}
+                    inference={1}
+                    message="is the most frequently used bigram in the comments"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RadarCard
+                    labels={[
+                      "Happy",
+                      "Angry",
+                      "Surprise",
+                      "Sad",
+                      "Fear",
+                      "pos",
+                      "neg",
+                    ]}
+                    secondaryLabels={Object.keys(data["commenter_trends"])}
+                    data={Object.values(data["commenter_trends"])}
+                    size={65}
+                    title={"Aggregate Commenter-Emotion Analysis"}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>

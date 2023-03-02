@@ -102,9 +102,9 @@ export const InvalidAccount = (props) => {
             {props.handle.replace(/(.{15})..+/, "$1...")}
           </span>{" "}
           either does not exist or may not have enough tweets for analysis.
-          Please note that accounts with less than 200 Original Tweets are not
-          eligible for analysis. If you think this is a mistake, try relaxing
-          the query filters.
+          Please note that accounts with less than 200 Original Tweets/Comments
+          are not eligible for analysis. If you think this is a mistake, try
+          relaxing the query filters.
         </Typography>
         <Stack direction="row" spacing={3}>
           <Button

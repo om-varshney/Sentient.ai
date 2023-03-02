@@ -43,12 +43,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress = styled(LinearProgress)(({ theme }) => ({
   height: "15px !important",
-  borderRadius: 5,
+  borderRadius: 500,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: "#eef2f6",
   },
   [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
+    borderRadius: 500,
     backgroundColor: "#87BF10",
   },
 }));

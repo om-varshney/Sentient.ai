@@ -7,6 +7,8 @@ import datetime
 import re
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import text2emotion as te
+import nltk
+from nltk.corpus import stopwords
 
 
 class TrendIntelligence:
@@ -226,6 +228,9 @@ class SentimentIntelligence:
             since: str = "2015-01-01",
             until: str = str(datetime.date.today()),
     ):
+        nltk.download("stopwords")
+        nltk.download("wordnet")
+        nltk.download('omw-1.4')
         self.collector = collector.CommentsTweetsCollector(
             handle,
             min_faves,
@@ -366,9 +371,9 @@ class SentimentIntelligence:
     def emotion_distribution(self):
         emotions = [
             "Happy",
-            "Surprise",
-            "Sad",
             "Angry",
+            "Sad",
+            "Surprise",
             "Fear"
         ]
         trend = [round(self.df[emotion].mean(), 2) for emotion in emotions]
@@ -382,7 +387,8 @@ class SentimentIntelligence:
         }
 
     def time_trends(self):
-        numeric_columns = [i for i in ["Happy", "Angry", "Sad", "Surprise", "Fear", "pos", "neg"] if i not in self.all_null]
+        numeric_columns = [i for i in ["Happy", "Angry", "Sad", "Surprise", "Fear", "pos", "neg"] if
+                           i not in self.all_null]
         time_frame = self.df.groupby("Time").mean(numeric_only=True).loc[:, numeric_columns]
         return {
             "polarity": {
@@ -449,6 +455,33 @@ class SentimentIntelligence:
             "polarity_labels": ["Positive", "Negative"],
         }
 
+    def commenter_trends(self):
+        self.df["lpv"] = self.df["likes"] / self.df["views"]
+        by_commenter = self.df.sort_values(by="lpv", ascending=False)
+        top_3 = by_commenter["username"].iloc[:3]
+        return {
+            i: [
+                0 if np.isnan(value) else value for value in
+                by_commenter.loc[by_commenter["username"] == i]
+                .loc[:, ["Happy", "Angry", "Surprise", "Sad", "Fear", "pos", "neg"]].mean().values
+            ]
+            for i in top_3
+        }
+
+    def top_words(self):
+        sw = nltk.corpus.stopwords.words("english")
+        words = ''.join(str(self.df["content"].tolist()))
+        words = re.sub(r'[^\w\s]', '', words).split()
+        wnl = nltk.stem.WordNetLemmatizer()
+        words = [wnl.lemmatize(word) for word in words if word not in sw]
+        return {
+            "t10_words": list(i[0] for i in pd.Series(nltk.ngrams(words, 1)).value_counts().iloc[:10].keys()),
+            "t10_word_counts": list(int(i) for i in pd.Series(nltk.ngrams(words, 1)).value_counts().iloc[:10].values),
+            "t10_bigrams": list(i[0] + " " + i[1] for i in pd.Series(nltk.ngrams(words, 2)).value_counts().iloc[:10]
+                                .keys()),
+            "t10_bigram_counts": list(int(i) for i in pd.Series(nltk.ngrams(words, 2)).value_counts().iloc[:10].values)
+        }
+
     def analysis_json(self):
         if self.collector.collected < 200:
             return {
@@ -464,4 +497,6 @@ class SentimentIntelligence:
             "polarity_distribution": self.polarity_distribution(),
             "emotion_distribution": self.emotion_distribution(),
             "time_trends": self.time_trends(),
+            "commenter_trends": self.commenter_trends(),
+            "word_trends": self.top_words(),
         }

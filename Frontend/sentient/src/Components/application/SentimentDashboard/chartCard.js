@@ -44,22 +44,24 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Polarity vs Time Analysis",
-      font: {
-        size: 14,
-        family: "Roboto",
+const getOptions = (title) => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: 14,
+          family: "Roboto",
+        },
       },
     },
-  },
+  };
 };
 
 const getData = (dataset, labels, secondaryLabels) => {
@@ -69,8 +71,8 @@ const getData = (dataset, labels, secondaryLabels) => {
       return {
         label: secondaryLabels[idx],
         data: data,
-        borderColor: colors_dark[idx + 1][0],
-        backgroundColor: colors_dark[idx + 1][1],
+        borderColor: colors_dark[idx][0],
+        backgroundColor: colors_dark[idx][1],
         borderWidth: 3,
         borderRadius: 4,
       };
@@ -89,7 +91,7 @@ export default function ChartCard(props) {
           }}
         >
           <Bar
-            options={options}
+            options={getOptions(props.title)}
             data={getData(props.data, props.labels, props.secondaryLabels)}
             type={"bar"}
           />

@@ -94,7 +94,6 @@ const MainInput = ({ placeHolderText, width }) => {
           fontSize: "18px !important",
         }}
         placeholder={placeHolderText}
-        required={true}
         value={input}
         onChange={(e) => {
           setInput(e.target.value);
