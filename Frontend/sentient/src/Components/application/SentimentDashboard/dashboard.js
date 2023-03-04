@@ -267,7 +267,7 @@ export const SentimentDashboard = ({ handle, data, message }) => {
                 <Grid item xs={12}>
                   <ChartCard
                     labels={data["word_trends"]["t10_words"]}
-                    secondaryLabels={["top-words"]}
+                    secondaryLabels={["Number of Occurrences"]}
                     data={[data["word_trends"]["t10_word_counts"]]}
                     title="Top words in Comments"
                   />
@@ -275,7 +275,7 @@ export const SentimentDashboard = ({ handle, data, message }) => {
                 <Grid item xs={12}>
                   <ChartCard
                     labels={data["word_trends"]["t10_bigrams"]}
-                    secondaryLabels={["top-bigrams"]}
+                    secondaryLabels={["Number of Occurrences"]}
                     data={[data["word_trends"]["t10_bigram_counts"]]}
                     title="Top Bi-Grams in comments"
                   />
