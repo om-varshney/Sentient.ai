@@ -32,7 +32,8 @@ class HandleTweetsCollector:
     def build_query(self):
         return f"(from:{self.handle}) -filter:replies " \
                f"min_replies:{self.min_replies} min_faves:{self.min_faves} " \
-               f"min_retweets:{self.min_retweets} since:{self.since} until:{self.until}"
+               f"min_retweets:{self.min_retweets} since:{self.since} until:{self.until} " \
+               f"lang:en"
 
     def collect_tweets(self):
         query = self.build_query()
@@ -79,7 +80,8 @@ class CommentsTweetsCollector:
 
     def build_query(self):
         return f"(to:{self.handle}) min_faves:{self.min_faves} " \
-               f"filter:replies since:{self.since} until:{self.until}"
+               f"filter:replies since:{self.since} until:{self.until} " \
+               f"lang:en"
 
     def collect_tweets(self):
         query = self.build_query()
